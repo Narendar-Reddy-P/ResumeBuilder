@@ -1,35 +1,14 @@
-.main {
-  display: grid;
-  gap: 1rem;
-}
-
-.icon {
-  width: 1.2rem;
-}
+@import "tailwindcss";
 
 .mainComponent {
-  border: 1px solid black;
-  border-radius: 1rem;
-  width: 20rem;
-}
-.mainComponentHeader {
-  display: flex;
-  gap: 1rem;
-  margin: 0.5rem;
-  padding: 0.5rem;
-  background-color: lightblue;
-  border-radius: 1rem;
+  @apply border w-[90vw] max-w-150 border-indigo-800 rounded-lg gap-4 shadow-xl shadow-xl/30;
 }
 
-.mainComponentHeaderText {
-  margin-right: auto;
-}
-.inputComponent {
-  display: flex;
-  flex-direction: column;
-  padding: 0.5rem;
+#root,
+body {
+  width: 100vw;
 }
 
-.normalInput {
-  height: 1.5rem;
+.button {
+  @apply flex justify-center items-center h-10 w-10 bg-white rounded-md shadow-xl/30 cursor-pointer;
 }
