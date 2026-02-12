@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .mainComponent {
-  @apply border w-[90vw] max-w-150 border-indigo-800 rounded-lg gap-4 shadow-xl shadow-xl/30;
+  @apply border max-w-150 w-full border-indigo-800 rounded-lg gap-4 shadow-xl shadow-xl/30;
 }
 
 #root,

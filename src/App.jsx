@@ -6,7 +6,6 @@ import {
   EyeIcon,
   PrintIcon,
   ResetIcon,
-  CircularPlus,
   DownloadIcon,
 } from "./Icon";
 
@@ -29,7 +28,7 @@ function App() {
     }
   }
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center overflow-scroll py-15">
       {!preview ? (
         <>
           <div className="">
