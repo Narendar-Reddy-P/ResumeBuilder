@@ -13,7 +13,7 @@ export function Image({ url }) {
 export function Icon({ url }) {
   return <img src={url} className="w-4 h-4 " />;
 }
-export function Input({ id, header, type }) {
+export function Input({ id, header, type, value = "" }) {
   return (
     <div className=" w-full px-4 ">
       <label htmlFor={id} className="text-indigo-900 cursor-pointer">
@@ -24,11 +24,12 @@ export function Input({ id, header, type }) {
         type={type}
         className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
         id={id}
+        value={value}
       />
     </div>
   );
 }
-export function TextArea({ id, header }) {
+export function TextArea({ id, header, value = "" }) {
   return (
     <div className="flex flex-col  gap-3 w-full p-4">
       <label htmlFor={id} rows={5} className="text-indigo-900 cursor-pointer">
@@ -37,6 +38,7 @@ export function TextArea({ id, header }) {
       <textarea
         className="bg-indigo-100  text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm  p-1 outline-none h-30 w-full "
         id={id}
+        value={value}
       />
     </div>
   );
@@ -61,26 +63,7 @@ export function MainComponentHeaderToggler({
     </div>
   );
 }
-export function WorkXPForm() {
-  return (
-    <div className="w-full border border-indigo-800 rounded-lg">
-      <header className="flex items-center justify-between cursor-pointer p-4 pl-3 ">
-        <span>Job position, Company</span>
-        <div className="ml-auto flex gap-4">
-          <Icon url={togglerDown}></Icon>
-          <Icon url={deleteIcon}></Icon>
-        </div>
-      </header>
-      <div>
-        <Input header={"Position"} type={"text"} id={`position`}></Input>
-        <Input header={"Company"} type={"text"} id={`company`}></Input>
-        <Input header={"Start Date"} type={"text"} id={`startDate`}></Input>
-        <Input header={"End Date"} type={"text"} id={`endDate`}></Input>
-        <TextArea header={"Description"} id={`description`} />
-      </div>
-    </div>
-  );
-}
+
 export function EducationForm() {
   return (
     <div className="w-full border border-indigo-800 rounded-lg">

@@ -28,7 +28,7 @@ function App() {
     }
   }
   return (
-    <div className="flex flex-col items-center justify-center overflow-scroll py-15">
+    <div className="flex flex-col items-center justify-center py-15">
       {!preview ? (
         <>
           <div className="">
