@@ -64,27 +64,6 @@ export function MainComponentHeaderToggler({
   );
 }
 
-export function EducationForm() {
-  return (
-    <div className="w-full border border-indigo-800 rounded-lg">
-      <header className="flex items-center justify-between cursor-pointer p-4 pl-3 ">
-        <span>School Name, Course</span>
-        <div className="ml-auto flex gap-4">
-          <Icon url={togglerDown}></Icon>
-          <Icon url={deleteIcon}></Icon>
-        </div>
-      </header>
-      <div>
-        <Input header={"School"} type={"text"} id={`position`}></Input>
-        <Input header={"Course"} type={"text"} id={`company`}></Input>
-        <Input header={"Start Date"} type={"text"} id={`startDate`}></Input>
-        <Input header={"End Date"} type={"text"} id={`endDate`}></Input>
-        <TextArea header={"Description"} id={`description`} />
-      </div>
-    </div>
-  );
-}
-
 export function SectionForm() {
   return (
     <div className="w-full border border-indigo-800 rounded-lg">
@@ -130,6 +109,60 @@ function LinkSection() {
           <input className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1 "></input>
         </div>
       </div>
+    </div>
+  );
+}
+
+export function WEForm({
+  data,
+  isOpen,
+  onSelect,
+  onRemove,
+  id,
+  fields,
+  displayLabel,
+}) {
+  return (
+    <div className="w-full border border-indigo-800 rounded-lg mb-2">
+      <header
+        className="flex items-center justify-between cursor-pointer p-4 pl-3"
+        onClick={() => onSelect(id)}
+      >
+        <span>{displayLabel}</span>
+        <div className="ml-auto flex gap-4">
+          <img src={togglerDown} className="w-4 h-4" />
+          <img
+            src={deleteIcon}
+            className="w-4 h-4"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemove(id);
+            }}
+          />
+        </div>
+      </header>
+      {isOpen && (
+        <div>
+          {fields.map((field) =>
+            field.type === "textarea" ? (
+              <TextArea
+                key={field.id}
+                header={field.header}
+                id={field.id}
+                value={data[field.key]}
+              />
+            ) : (
+              <Input
+                key={field.id}
+                header={field.header}
+                type={field.type}
+                id={field.id}
+                value={data[field.key]}
+              />
+            ),
+          )}
+        </div>
+      )}
     </div>
   );
 }
