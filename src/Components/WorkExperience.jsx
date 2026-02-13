@@ -1,10 +1,13 @@
 import { useState } from "react";
 
 import briefcase from "../assets/images/icons/briefcase.svg";
-import togglerDown from "../assets/images/icons/toggler-down.svg";
-import deleteIcon from "../assets/images/icons/delete-icon.svg";
 
-import { MainComponentHeaderToggler, Icon, Input, TextArea } from "../Utility";
+import {
+  MainComponentHeaderToggler,
+  WEForm,
+  Input,
+  TextArea,
+} from "../Utility";
 import { CircularPlus } from "../Icon";
 
 let workXPs = [
@@ -68,19 +71,48 @@ export function WorkExperience({ onSelectMainComponent, selectMainComponent }) {
       />
       {selectMainComponent === text && (
         <div className="p-4 w-full">
-          <div w-full>
+          <div className="w-full">
             {XP.map((workXP) => (
-              <WorkXPForm
-                position={workXP.position}
-                company={workXP.company}
-                startDate={workXP.startDate}
-                endDate={workXP.endDate}
-                description={workXP.description}
-                isOpen={workXP.id === selectXP}
-                onSelectXP={handleSelectXP}
-                id={workXP.id}
+              <WEForm
+                data={workXP}
                 key={workXP.id}
-                removeWorkXP={removeWorkXP}
+                isOpen={workXP.id === selectXP}
+                onSelect={handleSelectXP}
+                onRemove={removeWorkXP}
+                id={workXP.id}
+                displayLabel={`${workXP.position || "Job position"}, ${workXP.company || "Company"}`}
+                fields={[
+                  {
+                    key: "position",
+                    header: "Position",
+                    type: "text",
+                    id: "position",
+                  },
+                  {
+                    key: "company",
+                    header: "Company",
+                    type: "text",
+                    id: "company",
+                  },
+                  {
+                    key: "startDate",
+                    header: "Start Date",
+                    type: "text",
+                    id: "startDate",
+                  },
+                  {
+                    key: "endDate",
+                    header: "End Date",
+                    type: "text",
+                    id: "endDate",
+                  },
+                  {
+                    key: "description",
+                    header: "Description",
+                    type: "textarea",
+                    id: "description",
+                  },
+                ]}
               />
             ))}
           </div>
@@ -91,70 +123,6 @@ export function WorkExperience({ onSelectMainComponent, selectMainComponent }) {
             <CircularPlus />
             <span>&nbsp; Add work experience</span>
           </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function WorkXPForm({
-  position,
-  company,
-  startDate,
-  endDate,
-  description,
-  isOpen,
-  onSelectXP,
-  id,
-  removeWorkXP,
-}) {
-  return (
-    <div className="w-full border border-indigo-800 rounded-lg mb-2">
-      <header
-        className="flex items-center justify-between cursor-pointer p-4 pl-3"
-        onClick={() => onSelectXP(id)}
-      >
-        <span>{`${position || "Job position"}, ${company || "Company"}`}</span>
-        <div className="ml-auto flex gap-4">
-          <img src={togglerDown} className="w-4 h-4" />
-          <img
-            src={deleteIcon}
-            className="w-4 h-4"
-            onClick={() => removeWorkXP(id)}
-          />
-        </div>
-      </header>
-      {isOpen && (
-        <div>
-          <Input
-            header={"Position"}
-            type={"text"}
-            id={`position`}
-            value={position}
-          ></Input>
-          <Input
-            header={"Company"}
-            type={"text"}
-            id={`company`}
-            value={company}
-          ></Input>
-          <Input
-            header={"Start Date"}
-            type={"text"}
-            id={`startDate`}
-            value={startDate}
-          ></Input>
-          <Input
-            header={"End Date"}
-            type={"text"}
-            id={`endDate`}
-            value={endDate}
-          ></Input>
-          <TextArea
-            header={"Description"}
-            id={`description`}
-            value={description}
-          />
         </div>
       )}
     </div>

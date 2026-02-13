@@ -1,7 +1,5 @@
-import { MainComponentHeaderToggler, Input, TextArea } from "../Utility";
+import { MainComponentHeaderToggler, WEForm } from "../Utility";
 import academicCap from "../assets/images/icons/academic-cap.svg";
-import togglerDown from "../assets/images/icons/toggler-down.svg";
-import deleteIcon from "../assets/images/icons/delete-icon.svg";
 
 import { CircularPlus } from "../Icon";
 
@@ -67,19 +65,48 @@ export function Education({ onSelectMainComponent, selectMainComponent }) {
       />
       {selectMainComponent === text && (
         <div className="p-4 w-full">
-          <div w-full>
+          <div className="w-full">
             {edu.map((tut) => (
-              <EducationForm
-                school={tut.school}
-                course={tut.course}
-                startDate={tut.startDate}
-                endDate={tut.endDate}
-                description={tut.description}
-                isOpen={tut.id === selectEdu}
-                onSelectEdu={handleSelectEdu}
-                id={tut.id}
+              <WEForm
+                data={tut}
                 key={tut.id}
-                removeEdu={removeEdu}
+                isOpen={tut.id === selectEdu}
+                onSelect={handleSelectEdu}
+                onRemove={removeEdu}
+                id={tut.id}
+                displayLabel={`${tut.school || " School"}, ${tut.course || "course"}`}
+                fields={[
+                  {
+                    key: "school",
+                    header: "school",
+                    type: "text",
+                    id: "school",
+                  },
+                  {
+                    key: "course",
+                    header: "course",
+                    type: "text",
+                    id: "course",
+                  },
+                  {
+                    key: "startDate",
+                    header: "Start Date",
+                    type: "text",
+                    id: "startDate",
+                  },
+                  {
+                    key: "endDate",
+                    header: "End Date",
+                    type: "text",
+                    id: "endDate",
+                  },
+                  {
+                    key: "description",
+                    header: "Description",
+                    type: "textarea",
+                    id: "description",
+                  },
+                ]}
               />
             ))}
           </div>
@@ -90,70 +117,6 @@ export function Education({ onSelectMainComponent, selectMainComponent }) {
             <CircularPlus />
             <span>&nbsp; Add education</span>
           </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function EducationForm({
-  school,
-  course,
-  startDate,
-  endDate,
-  description,
-  isOpen,
-  onSelectEdu,
-  id,
-  removeEdu,
-}) {
-  return (
-    <div className="w-full border border-indigo-800 rounded-lg mb-2">
-      <header
-        className="flex items-center justify-between cursor-pointer p-4 pl-3"
-        onClick={() => onSelectEdu(id)}
-      >
-        <span>{`${school || "Job school"}, ${course || "course"}`}</span>
-        <div className="ml-auto flex gap-4">
-          <img src={togglerDown} className="w-4 h-4" />
-          <img
-            src={deleteIcon}
-            className="w-4 h-4"
-            onClick={() => removeEdu(id)}
-          />
-        </div>
-      </header>
-      {isOpen && (
-        <div>
-          <Input
-            header={"school"}
-            type={"text"}
-            id={`school`}
-            value={school}
-          ></Input>
-          <Input
-            header={"course"}
-            type={"text"}
-            id={`course`}
-            value={course}
-          ></Input>
-          <Input
-            header={"Start Date"}
-            type={"text"}
-            id={`startDate`}
-            value={startDate}
-          ></Input>
-          <Input
-            header={"End Date"}
-            type={"text"}
-            id={`endDate`}
-            value={endDate}
-          ></Input>
-          <TextArea
-            header={"Description"}
-            id={`description`}
-            value={description}
-          />
         </div>
       )}
     </div>
