@@ -1,9 +1,25 @@
 import { MainComponentHeaderToggler } from "../Utility";
 import sparkles from "../assets/images/icons/sparkles.svg";
-import { DeleteIcon, CircularPlus } from "../Icon";
+import deleteIcon from "../assets/images/icons/delete-icon.svg";
+import { CircularPlus } from "../Icon";
+import { useState } from "react";
 
+const skillsList = [
+  { id: crypto.randomUUID(), name: "java" },
+  { id: crypto.randomUUID(), name: "python" },
+];
 export function Skills({ onSelectMainComponent, selectMainComponent }) {
+  const [skills, setSkills] = useState(skillsList);
+
   const text = "Skills";
+
+  function addSkill() {
+    setSkills([...skills, { id: crypto.randomUUID(), name: "" }]);
+  }
+
+  function removeSkill(id) {
+    setSkills(skills.filter((skill) => skill.id !== id));
+  }
 
   return (
     <div className="mainComponent">
@@ -15,10 +31,20 @@ export function Skills({ onSelectMainComponent, selectMainComponent }) {
       />
       {selectMainComponent === text && (
         <div className="p-4 w-full">
-          <div w-full>
-            <Skill />
+          <div className="w-full">
+            {skills.map((skill) => (
+              <Skill
+                key={skill.id}
+                name={skill.name}
+                removeSkill={removeSkill}
+                id={skill.id}
+              />
+            ))}
           </div>
-          <div className="flex justify-end m-4 mb-0 text-indigo-900 font-bold">
+          <div
+            className="flex justify-end m-4 mb-0 text-indigo-900 font-bold cursor-pointer"
+            onClick={addSkill}
+          >
             <CircularPlus />
             <span>&nbsp; Add Skill</span>
           </div>
@@ -28,11 +54,20 @@ export function Skills({ onSelectMainComponent, selectMainComponent }) {
   );
 }
 
-function Skill() {
+function Skill({ name, removeSkill, id }) {
   return (
-    <div className="w-full border border-indigo-800 rounded-lg flex p-2  gap-3 items-center">
-      <input className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"></input>
-      <DeleteIcon />
+    <div className="w-full border border-indigo-800 rounded-lg flex p-2  gap-3 items-center mb-2">
+      <input
+        className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
+        value={name}
+      ></input>
+      <img
+        src={deleteIcon}
+        className="w-4 h-4 cursor-pointer"
+        onClick={() => {
+          removeSkill(id);
+        }}
+      />
     </div>
   );
 }

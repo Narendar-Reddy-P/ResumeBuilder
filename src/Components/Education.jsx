@@ -78,13 +78,13 @@ export function Education({ onSelectMainComponent, selectMainComponent }) {
                 fields={[
                   {
                     key: "school",
-                    header: "school",
+                    header: "School",
                     type: "text",
                     id: "school",
                   },
                   {
                     key: "course",
-                    header: "course",
+                    header: "Course",
                     type: "text",
                     id: "course",
                   },

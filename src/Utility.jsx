@@ -64,55 +64,6 @@ export function MainComponentHeaderToggler({
   );
 }
 
-export function SectionForm() {
-  return (
-    <div className="w-full border border-indigo-800 rounded-lg">
-      <header className="flex items-center justify-between cursor-pointer p-4 pl-3 ">
-        <span>Section Name</span>
-        <div className="ml-auto flex gap-4">
-          <Icon url={togglerDown}></Icon>
-          <Icon url={deleteIcon}></Icon>
-        </div>
-      </header>
-      <div>
-        <Input header={"Section Name"} type={"text"} id={`sectionName`}></Input>
-        <div className="w-80% border border-indigo-800 rounded-lg flex m-4  gap-3 items-center p-2">
-          <input className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"></input>
-          <DeleteIcon />
-        </div>
-        <LinkSection />
-      </div>
-
-      <div className="flex justify-end m-4 text-indigo-900 font-bold gap-4">
-        <div className="flex ">
-          <CircularPlus />
-          <span> Add Link</span>
-        </div>
-        <div className="flex">
-          <CircularPlus />
-          <span> Add Section item</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function LinkSection() {
-  return (
-    <div>
-      <div className="w-80% border border-indigo-800 rounded-lg flex flex-col m-4 mb-0 gap-2 items-center p-2 py-0">
-        <div className="w-full  flex  m-4 mt-2 mb-0 gap-3 items-center  pb-0 pt-0 ">
-          <input className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"></input>
-          <DeleteIcon />
-        </div>
-        <div className="w-full pr-8.5 pb-2 pt-0">
-          <input className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1 "></input>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function WEForm({
   data,
   isOpen,
@@ -134,8 +85,7 @@ export function WEForm({
           <img
             src={deleteIcon}
             className="w-4 h-4"
-            onClick={(e) => {
-              e.stopPropagation();
+            onClick={() => {
               onRemove(id);
             }}
           />
