@@ -8,10 +8,15 @@ import { useState } from "react";
 let tempData = [
   {
     id: crypto.randomUUID(),
-    sectionName: "",
+    name: "",
     details: [
-      { id: crypto.randomUUID(), type: "section", value: "" },
-      { id: crypto.randomUUID(), type: "link", linkText: "", url: "" },
+      { id: crypto.randomUUID(), type: "section", value: "LOL" },
+      {
+        id: crypto.randomUUID(),
+        type: "link",
+        linkText: "hello",
+        url: "google.com",
+      },
     ],
   },
   {
@@ -46,6 +51,26 @@ export function More({ onSelectMainComponent, selectMainComponent }) {
     setData([...data, newSection]);
   }
 
+  function handleChangeSectionName(id, value) {
+    setData(data.map((x) => (x.id != id ? x : { ...x, name: value })));
+  }
+
+  function handleChangeSectionItem(sectionId, id, parameter, value) {
+    setData(
+      data.map((x) =>
+        x.id !== sectionId
+          ? x
+          : {
+              ...x,
+              details: x.details.map((y) =>
+                y.id !== id ? y : { ...y, [parameter]: value },
+              ),
+            },
+      ),
+    );
+    console.log(data);
+  }
+
   return (
     <div className="mainComponent">
       <MainComponentHeaderToggler
@@ -66,6 +91,8 @@ export function More({ onSelectMainComponent, selectMainComponent }) {
                 deleteSection={deleteSection}
                 data={data}
                 setData={setData}
+                onChangeSectionName={handleChangeSectionName}
+                onChangeSectionItem={handleChangeSectionItem}
               />
             ))}
           </div>
@@ -89,6 +116,8 @@ function SectionForm({
   deleteSection,
   data,
   setData,
+  onChangeSectionName,
+  onChangeSectionItem,
 }) {
   function addLink() {
     let tempLink = {
@@ -133,25 +162,37 @@ function SectionForm({
         className="flex items-center justify-between cursor-pointer p-4 pl-3 "
         onClick={() => onSelectedSection(section.id)}
       >
-        <span>{section.name || "Section Name"}</span>
+        <span>{section.name || "Section"}</span>
         <div className="ml-auto flex gap-4">
           <img src={togglerDown} className="w-4 h-4 " />
           <img
             src={deleteIcon}
             className="w-4 h-4 "
-            onClick={() => deleteSection(section.id)}
+            onClick={(e) => deleteSection(section.id, e.target.value)}
           />
         </div>
       </header>
       {isOpen && (
         <>
           <div>
-            <Input
-              header={"Section Name"}
-              type={"text"}
-              id={`sectionName`}
-              value={section.name}
-            ></Input>
+            <div className=" w-full px-4 ">
+              <label
+                htmlFor="sectionName"
+                className="text-indigo-900 cursor-pointer"
+              >
+                Section Name
+              </label>
+              <br />
+              <input
+                type="text"
+                className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
+                id="sectionName"
+                value={section.name}
+                onChange={(e) =>
+                  onChangeSectionName(section.id, e.target.value)
+                }
+              />
+            </div>
             {section.details.length > 0 &&
               section.details.map((item) =>
                 item.type === "section" ? (
@@ -159,9 +200,20 @@ function SectionForm({
                     key={item.id}
                     onDelete={handleDelete}
                     id={item.id}
+                    value={item.value}
+                    onChangeSectionItem={onChangeSectionItem}
+                    sectionId={section.id}
                   />
                 ) : (
-                  <Link key={item.id} onDelete={handleDelete} id={item.id} />
+                  <Link
+                    key={item.id}
+                    onDelete={handleDelete}
+                    id={item.id}
+                    sectionId={section.id}
+                    onChangeSectionItem={onChangeSectionItem}
+                    linkText={item.linkText}
+                    url={item.url}
+                  />
                 ),
               )}
           </div>
@@ -182,10 +234,16 @@ function SectionForm({
   );
 }
 
-function SectionItem({ id, onDelete }) {
+function SectionItem({ id, onDelete, sectionId, onChangeSectionItem, value }) {
   return (
     <div className="w-80% border border-indigo-800 rounded-lg flex p-2 gap-3 items-center mb-2 m-4">
-      <input className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"></input>
+      <input
+        className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
+        value={value}
+        onChange={(e) =>
+          onChangeSectionItem(sectionId, id, "value", e.target.value)
+        }
+      ></input>
       <img
         src={deleteIcon}
         className="w-4 h-4 cursor-pointer"
@@ -195,7 +253,7 @@ function SectionItem({ id, onDelete }) {
   );
 }
 
-function Link({ id, onDelete }) {
+function Link({ id, onDelete, linkText, url, sectionId, onChangeSectionItem }) {
   return (
     <div>
       <div className="w-80% border border-indigo-800 rounded-lg flex flex-col m-4 mb-0 gap-2 items-center p-2 py-0">
@@ -203,6 +261,10 @@ function Link({ id, onDelete }) {
           <input
             className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
             placeholder="Link Text"
+            value={linkText}
+            onChange={(e) =>
+              onChangeSectionItem(sectionId, id, "linkText", e.target.value)
+            }
           ></input>
           <img
             src={deleteIcon}
@@ -216,6 +278,10 @@ function Link({ id, onDelete }) {
           <input
             className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1 "
             placeholder="URL"
+            value={url}
+            onChange={(e) =>
+              onChangeSectionItem(sectionId, id, "url", e.target.value)
+            }
           ></input>
         </div>
       </div>

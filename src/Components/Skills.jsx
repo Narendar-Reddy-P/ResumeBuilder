@@ -21,6 +21,9 @@ export function Skills({ onSelectMainComponent, selectMainComponent }) {
     setSkills(skills.filter((skill) => skill.id !== id));
   }
 
+  function handleChangeSkill(id, value) {
+    setSkills(skills.map((x) => (x.id !== id ? x : { ...x, name: value })));
+  }
   return (
     <div className="mainComponent">
       <MainComponentHeaderToggler
@@ -38,6 +41,7 @@ export function Skills({ onSelectMainComponent, selectMainComponent }) {
                 name={skill.name}
                 removeSkill={removeSkill}
                 id={skill.id}
+                onChangeSkill={handleChangeSkill}
               />
             ))}
           </div>
@@ -54,12 +58,13 @@ export function Skills({ onSelectMainComponent, selectMainComponent }) {
   );
 }
 
-function Skill({ name, removeSkill, id }) {
+function Skill({ name, removeSkill, id, onChangeSkill }) {
   return (
     <div className="w-full border border-indigo-800 rounded-lg flex p-2  gap-3 items-center mb-2">
       <input
         className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
         value={name}
+        onChange={onChangeSkill}
       ></input>
       <img
         src={deleteIcon}
