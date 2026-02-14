@@ -15,6 +15,7 @@ import { WorkExperience } from "./Components/WorkExperience";
 import { Education } from "./Components/Education";
 import { Skills } from "./Components/Skills";
 import { More } from "./Components/More";
+import { Projects } from "./Components/Projects";
 
 function App() {
   const [selectMainComponent, setSelectMainComponent] = useState("");
@@ -48,11 +49,15 @@ function App() {
               onSelectMainComponent={handleSelectMainComponent}
               selectMainComponent={selectMainComponent}
             />
+            <Education
+              onSelectMainComponent={handleSelectMainComponent}
+              selectMainComponent={selectMainComponent}
+            />
             <WorkExperience
               onSelectMainComponent={handleSelectMainComponent}
               selectMainComponent={selectMainComponent}
             />
-            <Education
+            <Projects
               onSelectMainComponent={handleSelectMainComponent}
               selectMainComponent={selectMainComponent}
             />
