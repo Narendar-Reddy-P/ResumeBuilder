@@ -7,30 +7,14 @@ import { CircularPlus } from "../Icon";
 
 import { useState } from "react";
 
-let courses = [
-  {
-    id: crypto.randomUUID(),
-    school: "LRHS",
-    course: "python",
-    startDate: "12 Feb",
-    endDate: "19 Feb",
-    description:
-      "Performed basic system programming tasks and fixed system bugs gaining practical eeduerience in troubleshooting and resolving Odoo system issues.",
-  },
-  {
-    id: crypto.randomUUID(),
-    school: "LRHS",
-    course: "python",
-    startDate: "12 Feb",
-    endDate: "19 Feb",
-    description:
-      "Performed basic system programming tasks and fixed system bugs gaining practical eeduerience in troubleshooting and resolving Odoo system issues.",
-  },
-];
+export function Education({
+  onSelectMainComponent,
+  selectMainComponent,
+  edu,
+  setEdu,
+}) {
+  const [selectEdu, setSelectEdu] = useState(edu[0]?.id || "");
 
-export function Education({ onSelectMainComponent, selectMainComponent }) {
-  const [selectEdu, setSelectEdu] = useState(courses[0].id);
-  const [edu, setEdu] = useState(courses);
   const text = "Education";
 
   function handleSelectEdu(id) {

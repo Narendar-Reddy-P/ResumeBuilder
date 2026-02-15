@@ -7,30 +7,13 @@ import briefcase from "../assets/images/icons/briefcase.svg";
 import { MainComponentHeaderToggler } from "../Utility";
 import { CircularPlus } from "../Icon";
 
-let workXPs = [
-  {
-    id: crypto.randomUUID(),
-    position: "Web Dev",
-    company: "TCS",
-    startDate: "12 Feb",
-    endDate: "19 Feb",
-    description:
-      "Performed basic system programming tasks and fixed system bugs gaining practical experience in troubleshooting and resolving Odoo system issues.",
-  },
-  {
-    id: crypto.randomUUID(),
-    position: "Web Dev",
-    company: "TCS",
-    startDate: "12 Feb",
-    endDate: "19 Feb",
-    description:
-      "Performed basic system programming tasks and fixed system bugs gaining practical experience in troubleshooting and resolving Odoo system issues.",
-  },
-];
-
-export function WorkExperience({ onSelectMainComponent, selectMainComponent }) {
-  const [selectXP, setSelectXP] = useState(workXPs[0].id);
-  const [XP, setXP] = useState(workXPs);
+export function WorkExperience({
+  onSelectMainComponent,
+  selectMainComponent,
+  XP,
+  setXP,
+}) {
+  const [selectXP, setSelectXP] = useState(XP[0]?.id || "");
 
   function handleSelectXP(id) {
     if (selectXP === id) {

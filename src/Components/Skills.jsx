@@ -2,17 +2,13 @@ import { MainComponentHeaderToggler } from "../Utility";
 import sparkles from "../assets/images/icons/sparkles.svg";
 import deleteIcon from "../assets/images/icons/delete-icon.svg";
 import { CircularPlus } from "../Icon";
-import { useState } from "react";
 
-const skillsList = [
-  { id: crypto.randomUUID(), name: "java" },
-  { id: crypto.randomUUID(), name: "python" },
-];
-export function Skills({ onSelectMainComponent, selectMainComponent }) {
-  const [skills, setSkills] = useState(skillsList);
-
-  const text = "Skills";
-
+export function Skills({
+  onSelectMainComponent,
+  selectMainComponent,
+  skills,
+  setSkills,
+}) {
   function addSkill() {
     setSkills([...skills, { id: crypto.randomUUID(), name: "" }]);
   }
@@ -28,11 +24,11 @@ export function Skills({ onSelectMainComponent, selectMainComponent }) {
     <div className="mainComponent">
       <MainComponentHeaderToggler
         mainIcon={sparkles}
-        text={text}
+        text={"Skills"}
         onSelectMainComponent={onSelectMainComponent}
         selectMainComponent={selectMainComponent}
       />
-      {selectMainComponent === text && (
+      {selectMainComponent === "Skills" && (
         <div className="p-4 w-full">
           <div className="w-full">
             {skills.map((skill) => (

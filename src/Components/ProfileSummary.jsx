@@ -1,11 +1,12 @@
-import { useState } from "react";
 import summaryIcon from "../assets/images/icons/user-summary.svg";
 import { MainComponentHeaderToggler, TextArea } from "../Utility";
 
-const profileSummary = "";
-export function ProfileSummary({ onSelectMainComponent, selectMainComponent }) {
-  const [summary, setSummary] = useState(profileSummary);
-
+export function ProfileSummary({
+  onSelectMainComponent,
+  selectMainComponent,
+  summary,
+  setSummary,
+}) {
   function handleChangeSummary(value) {
     setSummary(value);
   }

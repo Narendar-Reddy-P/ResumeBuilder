@@ -7,30 +7,13 @@ import projectIcon from "../assets/images/icons/projects-icon.svg";
 import { MainComponentHeaderToggler } from "../Utility";
 import { CircularPlus } from "../Icon";
 
-let tempProjects = [
-  {
-    id: crypto.randomUUID(),
-    title: "Web Dev",
-    techStack: "TCS",
-    startDate: "12 Feb",
-    endDate: "19 Feb",
-    description:
-      "Performed basic system programming tasks and fixed system bugs gaining practical eProjecterience in troubleshooting and resolving Odoo system issues.",
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Web Dev",
-    techStack: "TCS",
-    startDate: "12 Feb",
-    endDate: "19 Feb",
-    description:
-      "Performed basic system programming tasks and fixed system bugs gaining practical eProjecterience in troubleshooting and resolving Odoo system issues.",
-  },
-];
-
-export function Projects({ onSelectMainComponent, selectMainComponent }) {
-  const [selectProject, setSelectProject] = useState(tempProjects[0].id);
-  const [projects, setProjects] = useState(tempProjects);
+export function Projects({
+  onSelectMainComponent,
+  selectMainComponent,
+  projects,
+  setProjects,
+}) {
+  const [selectProject, setSelectProject] = useState(projects[0]?.id || "");
 
   function handleSelectProject(id) {
     if (selectProject === id) {

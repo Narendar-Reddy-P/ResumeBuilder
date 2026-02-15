@@ -5,30 +5,13 @@ import deleteIcon from "../assets/images/icons/delete-icon.svg";
 import togglerDown from "../assets/images/icons/toggler-down.svg";
 import { useState } from "react";
 
-let tempData = [
-  {
-    id: crypto.randomUUID(),
-    name: "",
-    details: [
-      { id: crypto.randomUUID(), type: "section", value: "LOL" },
-      {
-        id: crypto.randomUUID(),
-        type: "link",
-        linkText: "hello",
-        url: "google.com",
-      },
-    ],
-  },
-  {
-    id: crypto.randomUUID(),
-    name: "",
-    details: [],
-  },
-];
-
-export function More({ onSelectMainComponent, selectMainComponent }) {
-  const [data, setData] = useState(tempData);
-  const [selectedSection, setSelectedSection] = useState(tempData[0].id);
+export function More({
+  onSelectMainComponent,
+  selectMainComponent,
+  data,
+  setData,
+}) {
+  const [selectedSection, setSelectedSection] = useState(data[0]?.id || "");
 
   function handleSelectedSection(id) {
     if (selectedSection === id) {

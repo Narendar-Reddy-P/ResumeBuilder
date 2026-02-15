@@ -7,8 +7,17 @@
 #root,
 body {
   width: 100vw;
+  --height: min(297mm, 90vh);
 }
 
 .button {
   @apply flex justify-center items-center h-10 w-10 bg-white rounded-md shadow-xl/30 cursor-pointer;
+}
+
+.sheet {
+  display: flex;
+  position: sticky;
+  height: var(--height);
+  width: calc(var(--height * (210/297)));
+  align-items: stretch;
 }

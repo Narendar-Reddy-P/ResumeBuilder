@@ -1,29 +1,19 @@
 import { MainComponentHeaderToggler } from "../Utility";
-import { useState } from "react";
 import userIcon from "../assets/images/icons/user-icon.svg";
 import { Input } from "../Utility";
 
-const personalInfo = {
-  firstName: "",
-  lastName: "",
-  jobTitle: "",
-  phone: "",
-  email: "",
-  github: "",
-  portfolio: "",
-  address: "",
-};
 export function PersonalInformation({
   onSelectMainComponent,
   selectMainComponent,
+  info,
+  setInfo,
 }) {
-  const [info, setInfo] = useState(personalInfo);
   const text = "Personal Information";
   return (
     <div className="mainComponent">
       <MainComponentHeaderToggler
         mainIcon={userIcon}
-        text="text"
+        text="Personal Information"
         onSelectMainComponent={onSelectMainComponent}
         selectMainComponent={selectMainComponent}
       />
