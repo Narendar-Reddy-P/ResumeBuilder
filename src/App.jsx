@@ -209,49 +209,92 @@ let tempMoreEmpty = [
 ];
 
 const handleDownloadPDF = async () => {
-  const preview = document.querySelector("#sheet");
+  const viewportWidth = window.innerWidth;
+  let previewId;
+  console.log(viewportWidth);
+  console.log(viewportWidth < 1024);
+  if (viewportWidth < 1024) {
+    if (!document.querySelector("#smallScreen")) {
+      alert(
+        "Please click the preview button first to view your CV before downloading",
+      );
+      return;
+    }
+    previewId = "smallScreen";
+  } else {
+    previewId = "bigScreen";
+  }
+  const preview = document.querySelector(`#${previewId}`);
   if (!preview) return alert("Preview not found!");
 
+  const rect = preview.getBoundingClientRect();
+  console.log("Element dimensions:", {
+    width: rect.width,
+    height: rect.height,
+    scrollWidth: preview.scrollWidth,
+    scrollHeight: preview.scrollHeight,
+  });
+
+  if (rect.width === 0 || rect.height === 0) {
+    alert("Element has no dimensions. Make sure it's visible!");
+    return;
+  }
   const originalStyle = preview.style.transform;
   preview.style.transform = "scale(1)";
   preview.style.transformOrigin = "top left";
 
-  const canvas = await html2canvas(preview, {
-    scale: 2,
-    useCORS: true,
-    backgroundColor: "#ffffff",
-    windowWidth: preview.scrollWidth,
-    windowHeight: preview.scrollHeight,
-  });
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  try {
+    const canvas = await html2canvas(preview, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+      windowWidth: preview.scrollWidth,
+      windowHeight: preview.scrollHeight,
+      logging: true,
+    });
 
-  const imgData = canvas.toDataURL("image/png");
-  const pdf = new jsPDF("p", "mm", "a4");
+    preview.style.transform = originalStyle;
 
-  const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
-  const imgWidth = pageWidth;
-  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    if (!canvas || canvas.width === 0 || canvas.height === 0) {
+      throw new Error("Failed to create canvas from element");
+    }
+    const imgData = canvas.toDataURL("image/png");
 
-  let heightLeft = imgHeight;
-  let position = 0;
+    if (!imgData || !imgData.startsWith("data:image/png;base64,")) {
+      throw new Error("Invalid image data generated");
+    }
+    const pdf = new jsPDF("p", "mm", "a4");
 
-  pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-  heightLeft -= pageHeight;
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = pageWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-  while (heightLeft > 0) {
-    position -= pageHeight;
-    pdf.addPage();
-    pdf.addImage(imgData, "JNG", 0, position, imgWidth, imgHeight);
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
     heightLeft -= pageHeight;
-  }
 
-  // remove blank last page
-  if (heightLeft < -pageHeight / 2) {
-    pdf.deletePage(pdf.internal.getNumberOfPages());
-  }
+    while (heightLeft > 0) {
+      position -= pageHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
 
-  preview.style.transform = originalStyle;
-  pdf.save("My_CV.pdf");
+    // remove blank last page
+    if (heightLeft < -pageHeight / 2) {
+      pdf.deletePage(pdf.internal.getNumberOfPages());
+    }
+
+    preview.style.transform = originalStyle;
+    pdf.save("My_CV.pdf");
+  } catch (error) {
+    console.error("PDF generation error:", error);
+    alert("Failed to generate PDF: " + error.message);
+  }
 };
 
 function App() {
@@ -367,6 +410,7 @@ function App() {
             projects={projects}
             skills={skills}
             more={more}
+            id={"bigScreen"}
           />
         </div>
 
@@ -380,13 +424,14 @@ function App() {
               projects={projects}
               skills={skills}
               more={more}
+              id={"smallScreen"}
             />
           </div>
         )}
       </div>
 
       <div
-        className="flex gap-5 w-full h-[10vh] justify-evenly items-center fixed bottom-0 border-t border-indigo-800  lg:flex-col lg:w-auto  lg:gap-6 lg:fixed lg:right-0 lg:bottom-0
+        className="flex gap-5 w-full h-[10vh] justify-evenly items-center fixed bottom-0 border-t border-indigo-800 lg:flex-col lg:w-auto  lg:gap-6 lg:fixed lg:right-0 lg:bottom-0
        lg:justify-center lg:self-center  lg:border-none lg:h-screen lg:p-10 "
       >
         <div className="lg:hidden" onClick={() => setPreview(!preview)}>
@@ -413,12 +458,9 @@ function App() {
     </div>
   );
 }
-function A4Sheet({ info, summary, edu, XP, projects, skills, more }) {
+function A4Sheet({ info, summary, edu, XP, projects, skills, more, id }) {
   return (
-    <div
-      className="flex flex-col top-8 h-(--height) w-[calc(var(--height)*(210/297))] @container items-stretch border p-[4%] leading-3"
-      id="sheet"
-    >
+    <div id={id} className="sheet">
       <h1 className="text-[90%] font-extrabold text-center">{`${info.firstName} ${info.lastName}`}</h1>
       <p className="text-[50%] text-center">{`${info.email} | ${info.phone} | ${info.address}`}</p>
       <br></br>
