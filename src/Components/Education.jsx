@@ -2,6 +2,7 @@ import { MainComponentHeaderToggler, Input, TextArea } from "../Utility";
 import academicCap from "../assets/images/icons/academic-cap.svg";
 import togglerDown from "../assets/images/icons/toggler-down.svg";
 import deleteIcon from "../assets/images/icons/delete-icon.svg";
+import { Icon } from "../MinorComponents/Icon";
 
 import { CircularPlus } from "../Icon";
 
@@ -63,7 +64,7 @@ export function Education({
   }
 
   return (
-    <div className="mainComponent">
+    <div>
       <MainComponentHeaderToggler
         mainIcon={academicCap}
         text={text}
@@ -71,8 +72,8 @@ export function Education({
         selectMainComponent={selectMainComponent}
       />
       {selectMainComponent === text && (
-        <div className="p-4 w-full">
-          <div className="w-full">
+        <div>
+          <div>
             {edu.map((tut) => (
               <EducationForm
                 school={tut.school}
@@ -93,10 +94,7 @@ export function Education({
               />
             ))}
           </div>
-          <div
-            className="flex justify-end m-4 mb-0 text-indigo-900 font-bold "
-            onClick={addEdu}
-          >
+          <div onClick={addEdu}>
             <CircularPlus />
             <span>&nbsp; Add education</span>
           </div>
@@ -123,95 +121,55 @@ function EducationForm({
   onChangeDescription,
 }) {
   return (
-    <div className="w-full border border-indigo-800 rounded-lg mb-2">
-      <header
-        className="flex items-center justify-between cursor-pointer p-4 pl-3"
-        onClick={() => onSelectEdu(id)}
-      >
+    <div>
+      <header onClick={() => onSelectEdu(id)}>
         <span>{`${school || "School"}, ${course || "Course"}`}</span>
-        <div className="ml-auto flex gap-4">
-          <img src={togglerDown} className="w-4 h-4" />
-          <img
-            src={deleteIcon}
-            className="w-4 h-4"
-            onClick={() => removeEdu(id)}
-          />
+        <div>
+          <Icon src={togglerDown} size={"smaller"} />
+          <Icon src={deleteIcon} onClick={() => removeEdu(id)} size={"small"} />
         </div>
       </header>
       {isOpen && (
         // School
         <div>
-          <div className=" w-full px-4 ">
-            <label htmlFor={id} className="text-indigo-900 cursor-pointer">
-              {"School"}
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id={id}
-              value={school}
-              onChange={(e) => onChangeSchool(id, e.target.value)}
-            />
-          </div>
+          <Input
+            id={id}
+            type="text"
+            header="School"
+            value={school}
+            onChange={(e) => onChangeSchool(id, e.target.value)}
+          />
 
-          <div className=" w-full px-4 ">
-            <label htmlFor={id} className="text-indigo-900 cursor-pointer">
-              {"Course"}
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id={id}
-              value={course}
-              onChange={(e) => onChangeCourse(id, e.target.value)}
-            />
-          </div>
+          <Input
+            id={id}
+            type="text"
+            header="Course"
+            value={course}
+            onChange={(e) => onChangeCourse(id, e.target.value)}
+          />
 
-          <div className=" w-full px-4 ">
-            <label htmlFor={id} className="text-indigo-900 cursor-pointer">
-              {"Start Date"}
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id={id}
-              value={startDate}
-              onChange={(e) => onChangeStartDate(id, e.target.value)}
-            />
-          </div>
+          <Input
+            id={id}
+            type="text"
+            header="Start Date"
+            value={startDate}
+            onChange={(e) => onChangeStartDate(id, e.target.value)}
+          />
 
-          <div className=" w-full px-4 ">
-            <label htmlFor={id} className="text-indigo-900 cursor-pointer">
-              {"End Date"}
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id={id}
-              value={endDate}
-              onChange={(e) => onChangeEndDate(id, e.target.value)}
-            />
-          </div>
+          <Input
+            id={id}
+            type="text"
+            header="End Date"
+            value={endDate}
+            onChange={(e) => onChangeEndDate(id, e.target.value)}
+          />
 
-          <div className="flex flex-col  gap-3 w-full p-4">
-            <label
-              htmlFor={id}
-              rows={5}
-              className="text-indigo-900 cursor-pointer"
-            >
-              {"Description"}
-            </label>
-            <textarea
-              className="bg-indigo-100  text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm  p-1 outline-none h-30 w-full "
-              id={id}
-              value={description}
-              onChange={(e) => onChangeDescription(id, e.target.value)}
-            />
-          </div>
+          <TextArea
+            id={id}
+            header="Description"
+            value={description}
+            onChange={(e) => onChangeDescription(id, e.target.value)}
+          />
         </div>
       )}
     </div>

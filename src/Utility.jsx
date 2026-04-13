@@ -2,44 +2,28 @@ import deleteIcon from "./assets/images/icons/delete-icon.svg";
 import togglerDown from "./assets/images/icons/toggler-down.svg";
 import togglerUp from "./assets/images/icons/toggler-up.svg";
 import { DeleteIcon, CircularPlus } from "./Icon";
+import styles from "./Utility.module.css";
 
 export function Image({ url }) {
-  return (
-    <>
-      <img src={url} className="w-5 h-5 " />
-    </>
-  );
+  return <img src={url} className="icon" />;
 }
-export function Icon({ url }) {
-  return <img src={url} className="w-4 h-4 " />;
-}
+
 export function Input({ id, header, type, value = "" }) {
   return (
-    <div className=" w-full px-4 ">
-      <label htmlFor={id} className="text-indigo-900 cursor-pointer">
-        {header}
-      </label>
+    <div>
+      <label htmlFor={id}>{header}</label>
       <br />
-      <input
-        type={type}
-        className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-        id={id}
-        value={value}
-      />
+      <input type={type} id={id} value={value} />
     </div>
   );
 }
-export function TextArea({ id, header, value = "" }) {
+export function TextArea({ id, header, value = "", onChange = {}, rows = 5 }) {
   return (
-    <div className="flex flex-col  gap-3 w-full p-4">
-      <label htmlFor={id} rows={5} className="text-indigo-900 cursor-pointer">
+    <div>
+      <label htmlFor={id} rows={rows}>
         {header}
       </label>
-      <textarea
-        className="bg-indigo-100  text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm  p-1 outline-none h-30 w-full "
-        id={id}
-        value={value}
-      />
+      <textarea id={id} value={value} onChange={onChange} />
     </div>
   );
 }
@@ -51,13 +35,10 @@ export function MainComponentHeaderToggler({
 }) {
   let isOpen = selectMainComponent === text;
   return (
-    <div
-      className={`flex tracking-wide text-xl items-center px-4  h-12 gap-x-4 hover:bg-indigo-100 text-indigo-950 transition-all duration-300 m-1 cursor-pointer ${isOpen && "bg-indigo-100"} rounded-lg `}
-      onClick={() => onSelectMainComponent(text)}
-    >
+    <div onClick={() => onSelectMainComponent(text)} className={styles.header}>
       <Image url={mainIcon} />
-      <h3 className="">{text}</h3>
-      <div className="ml-auto">
+      <h3>{text}</h3>
+      <div>
         {isOpen ? <Image url={togglerUp} /> : <Image url={togglerDown} />}
       </div>
     </div>
@@ -74,17 +55,13 @@ export function WEForm({
   displayLabel,
 }) {
   return (
-    <div className="w-full border border-indigo-800 rounded-lg mb-2">
-      <header
-        className="flex items-center justify-between cursor-pointer p-4 pl-3"
-        onClick={() => onSelect(id)}
-      >
+    <div>
+      <header onClick={() => onSelect(id)}>
         <span>{displayLabel}</span>
-        <div className="ml-auto flex gap-4">
-          <img src={togglerDown} className="w-4 h-4" />
+        <div>
+          <img src={togglerDown} />
           <img
             src={deleteIcon}
-            className="w-4 h-4"
             onClick={() => {
               onRemove(id);
             }}

@@ -7,6 +7,8 @@ export function EditIcon() {
       strokeWidth={1.5}
       stroke="currentColor"
       className="size-6"
+      width="5px"
+      height="5px"
     >
       <path
         strokeLinecap="round"
@@ -25,6 +27,8 @@ export function EyeIcon() {
       strokeWidth={1.5}
       stroke="currentColor"
       className="size-6"
+      width="2rem"
+      height="2rem"
     >
       <path
         strokeLinecap="round"
@@ -48,6 +52,8 @@ export function DeleteIcon() {
       strokeWidth={1.5}
       stroke="currentColor"
       className="size-6"
+      width="2rem"
+      height="2rem"
     >
       <path
         strokeLinecap="round"
@@ -66,6 +72,8 @@ export function ResetIcon() {
       strokeWidth={1.5}
       stroke="currentColor"
       className="size-6"
+      width="2rem"
+      height="2rem"
     >
       <path
         strokeLinecap="round"
@@ -84,6 +92,8 @@ export function PrintIcon() {
       strokeWidth={1.5}
       stroke="currentColor"
       className="size-6"
+      width="2rem"
+      height="2rem"
     >
       <path
         strokeLinecap="round"
@@ -102,6 +112,8 @@ export function CircularPlus() {
       strokeWidth={1.5}
       stroke="currentColor"
       className="size-6"
+      width="2rem"
+      height="2rem"
     >
       <path
         strokeLinecap="round"
@@ -121,6 +133,8 @@ export function DownloadIcon() {
       strokeWidth={1.5}
       stroke="currentColor"
       className="size-6"
+      width="2rem"
+      height="2rem"
     >
       <path
         strokeLinecap="round"

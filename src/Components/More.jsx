@@ -55,7 +55,7 @@ export function More({
   }
 
   return (
-    <div className="mainComponent">
+    <div>
       <MainComponentHeaderToggler
         mainIcon={ellipsis}
         text={"More"}
@@ -63,8 +63,8 @@ export function More({
         selectMainComponent={selectMainComponent}
       />
       {selectMainComponent === "More" && (
-        <div className="p-4 w-full">
-          <div className="w-full grid gap-2">
+        <div>
+          <div>
             {data.map((section) => (
               <SectionForm
                 section={section}
@@ -79,10 +79,7 @@ export function More({
               />
             ))}
           </div>
-          <div
-            className="flex justify-end my-4 mb-0 text-indigo-900 font-bold cursor-pointer"
-            onClick={addSection}
-          >
+          <div onClick={addSection}>
             <CircularPlus />
             <span>&nbsp; Add Section</span>
           </div>
@@ -140,17 +137,13 @@ function SectionForm({
     );
   }
   return (
-    <div className="w-full border border-indigo-800 rounded-lg">
-      <header
-        className="flex items-center justify-between cursor-pointer p-4 pl-3 "
-        onClick={() => onSelectedSection(section.id)}
-      >
+    <div>
+      <header onClick={() => onSelectedSection(section.id)}>
         <span>{section.name || "Section"}</span>
-        <div className="ml-auto flex gap-4">
-          <img src={togglerDown} className="w-4 h-4 " />
+        <div>
+          <img src={togglerDown} />
           <img
             src={deleteIcon}
-            className="w-4 h-4 "
             onClick={(e) => deleteSection(section.id, e.target.value)}
           />
         </div>
@@ -158,17 +151,11 @@ function SectionForm({
       {isOpen && (
         <>
           <div>
-            <div className=" w-full px-4 ">
-              <label
-                htmlFor="sectionName"
-                className="text-indigo-900 cursor-pointer"
-              >
-                Section Name
-              </label>
+            <div>
+              <label htmlFor="sectionName">Section Name</label>
               <br />
               <input
                 type="text"
-                className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
                 id="sectionName"
                 value={section.name}
                 onChange={(e) =>
@@ -201,12 +188,12 @@ function SectionForm({
               )}
           </div>
 
-          <div className="flex justify-end m-4 text-indigo-900 font-bold gap-4">
-            <div className="flex cursor-pointer" onClick={addLink}>
+          <div>
+            <div onClick={addLink}>
               <CircularPlus />
               <span> Add Link</span>
             </div>
-            <div className="flex cursor-pointer" onClick={addSectionItem}>
+            <div onClick={addSectionItem}>
               <CircularPlus />
               <span> Add Section item</span>
             </div>
@@ -219,19 +206,14 @@ function SectionForm({
 
 function SectionItem({ id, onDelete, sectionId, onChangeSectionItem, value }) {
   return (
-    <div className="w-80% border border-indigo-800 rounded-lg flex p-2 gap-3 items-center mb-2 m-4">
+    <div>
       <input
-        className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
         value={value}
         onChange={(e) =>
           onChangeSectionItem(sectionId, id, "value", e.target.value)
         }
       ></input>
-      <img
-        src={deleteIcon}
-        className="w-4 h-4 cursor-pointer"
-        onClick={() => onDelete(id)}
-      />
+      <img src={deleteIcon} onClick={() => onDelete(id)} />
     </div>
   );
 }
@@ -239,10 +221,9 @@ function SectionItem({ id, onDelete, sectionId, onChangeSectionItem, value }) {
 function Link({ id, onDelete, linkText, url, sectionId, onChangeSectionItem }) {
   return (
     <div>
-      <div className="w-80% border border-indigo-800 rounded-lg flex flex-col m-4 mb-0 gap-2 items-center p-2 py-0">
-        <div className="w-full flex  m-4 mt-2 mb-0 gap-3 items-center  pb-0 pt-0 ">
+      <div>
+        <div>
           <input
-            className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
             placeholder="Link Text"
             value={linkText}
             onChange={(e) =>
@@ -251,15 +232,13 @@ function Link({ id, onDelete, linkText, url, sectionId, onChangeSectionItem }) {
           ></input>
           <img
             src={deleteIcon}
-            className="w-4 h-4 cursor-pointer"
             onClick={() => {
               onDelete(id);
             }}
           />
         </div>
-        <div className="w-full pr-7 pb-2 pt-0">
+        <div>
           <input
-            className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1 "
             placeholder="URL"
             value={url}
             onChange={(e) =>

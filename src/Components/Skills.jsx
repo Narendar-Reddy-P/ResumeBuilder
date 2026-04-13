@@ -21,7 +21,7 @@ export function Skills({
     setSkills(skills.map((x) => (x.id !== id ? x : { ...x, name: value })));
   }
   return (
-    <div className="mainComponent">
+    <div>
       <MainComponentHeaderToggler
         mainIcon={sparkles}
         text={"Skills"}
@@ -29,8 +29,8 @@ export function Skills({
         selectMainComponent={selectMainComponent}
       />
       {selectMainComponent === "Skills" && (
-        <div className="p-4 w-full">
-          <div className="w-full">
+        <div>
+          <div>
             {skills.map((skill) => (
               <Skill
                 key={skill.id}
@@ -41,10 +41,7 @@ export function Skills({
               />
             ))}
           </div>
-          <div
-            className="flex justify-end m-4 mb-0 text-indigo-900 font-bold cursor-pointer"
-            onClick={addSkill}
-          >
+          <div onClick={addSkill}>
             <CircularPlus />
             <span>&nbsp; Add Skill</span>
           </div>
@@ -56,15 +53,10 @@ export function Skills({
 
 function Skill({ name, removeSkill, id, onChangeSkill }) {
   return (
-    <div className="w-full border border-indigo-800 rounded-lg flex p-2  gap-3 items-center mb-2">
-      <input
-        className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-        value={name}
-        onChange={onChangeSkill}
-      ></input>
+    <div>
+      <input value={name} onChange={onChangeSkill}></input>
       <img
         src={deleteIcon}
-        className="w-4 h-4 cursor-pointer"
         onClick={() => {
           removeSkill(id);
         }}

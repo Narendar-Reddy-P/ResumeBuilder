@@ -1,18 +1,11 @@
 import summaryIcon from "../assets/images/icons/user-summary.svg";
+import { usePersonalInfo } from "../contexts/personalContext";
 import { MainComponentHeaderToggler, TextArea } from "../Utility";
 
-export function ProfileSummary({
-  onSelectMainComponent,
-  selectMainComponent,
-  summary,
-  setSummary,
-}) {
-  function handleChangeSummary(value) {
-    setSummary(value);
-  }
-
+export function ProfileSummary({ onSelectMainComponent, selectMainComponent }) {
+  const { summary, changeSummary } = usePersonalInfo();
   return (
-    <div className="mainComponent">
+    <div>
       <MainComponentHeaderToggler
         mainIcon={summaryIcon}
         text={"Profile Summary"}
@@ -20,14 +13,14 @@ export function ProfileSummary({
         selectMainComponent={selectMainComponent}
       />
       {selectMainComponent === "Profile Summary" && (
-        <div className="w-full">
+        <div>
           <TextArea
             header={
               "Highlight your professional experience, skills, and accomplishments in a brief, impactful statement."
             }
             id={"profileSummary"}
             value={summary}
-            onChange={(e) => handleChangeSummary(e.target.value)}
+            onChange={(e) => changeSummary(e.target.value)}
           />
         </div>
       )}

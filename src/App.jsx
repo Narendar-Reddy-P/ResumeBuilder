@@ -1,6 +1,11 @@
 import { useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import styles from "./App.module.css";
+import {
+  PersonalInfoProvider,
+  usePersonalInfo,
+} from "./contexts/personalContext";
 
 import {
   DeleteIcon,
@@ -18,20 +23,6 @@ import { Education } from "./Components/Education";
 import { Skills } from "./Components/Skills";
 import { More } from "./Components/More";
 import { Projects } from "./Components/Projects";
-
-const personalInfo = {
-  firstName: "Arjun",
-  lastName: "Mehta",
-  jobTitle: "Frontend Developer",
-  phone: "9876543210",
-  email: "arjun.mehta.dev@gmail.com",
-  github: "arjunmehta-dev",
-  portfolio: "https://arjunmehta.dev",
-  address: "Bangalore, India",
-};
-
-const profileSummary =
-  "Detail-oriented Frontend Developer with 3+ years of experience building scalable web applications using React and modern JavaScript. Strong understanding of component-driven architecture, performance optimization, and responsive design principles.";
 
 let courses = [
   {
@@ -134,19 +125,6 @@ let tempMore = [
     ],
   },
 ];
-
-const personalInfoEmpty = {
-  firstName: "",
-  lastName: "",
-  jobTitle: "",
-  phone: "",
-  email: "",
-  github: "",
-  portfolio: "",
-  address: "",
-};
-
-const profileSummaryEmpty = "";
 
 let coursesEmpty = [
   {
@@ -301,10 +279,6 @@ function App() {
   const [selectMainComponent, setSelectMainComponent] = useState("");
   const [preview, setPreview] = useState(false);
 
-  const [info, setInfo] = useState(personalInfo);
-
-  const [summary, setSummary] = useState(profileSummary);
-
   const [edu, setEdu] = useState(courses);
 
   const [XP, setXP] = useState(workXPs);
@@ -324,8 +298,8 @@ function App() {
   }
 
   function deleteResume() {
-    setInfo(personalInfoEmpty);
-    setSummary(profileSummaryEmpty);
+    // deletePersonalInfo();
+    // setSummary(profileSummaryEmpty);
     setEdu(coursesEmpty);
     setXP(workXPsEmpty);
     setProjects(tempProjectsEmpty);
@@ -334,8 +308,8 @@ function App() {
   }
 
   function resetResume() {
-    setInfo(personalInfo);
-    setSummary(profileSummary);
+    // resetPersonalInfo();
+    // setSummary(profileSummary);
     setEdu(courses);
     setXP(workXPs);
     setProjects(tempProjects);
@@ -343,179 +317,161 @@ function App() {
     setMore(tempMore);
   }
   return (
-    <div className="flex flex-col lg:grid lg:grid-cols-[10fr_9fr_2fr]  lg:gap-5 justify-center  pb-15 lg:pb-0">
-      <div
-        className={`lg:self-start w-full lg:flex-initial  flex flex-col items-center justify-center ${preview && "hidden lg:block"} `}
-      >
-        <div className="w-full lg:w-full flex flex-col items-center p-4">
-          <h2 className="text-center text-2xl font-bold text-indigo-800 mt-6 ">
-            Curriculum Vitae
-          </h2>
-          <p className="text-center text-indigo-800">
-            Your perfect CV made fast and effortless.
-          </p>
-        </div>
-        <div className="flex flex-col gap-3 p-4 lg:pr-0 w-full max-w-150 items-center">
-          <PersonalInformation
-            onSelectMainComponent={handleSelectMainComponent}
-            selectMainComponent={selectMainComponent}
-            info={info}
-            setInfo={setInfo}
-          />
-          <ProfileSummary
-            onSelectMainComponent={handleSelectMainComponent}
-            selectMainComponent={selectMainComponent}
-            summary={summary}
-            setSummary={setSummary}
-          />
-          <Education
-            onSelectMainComponent={handleSelectMainComponent}
-            selectMainComponent={selectMainComponent}
-            edu={edu}
-            setEdu={setEdu}
-          />
-          <WorkExperience
-            onSelectMainComponent={handleSelectMainComponent}
-            selectMainComponent={selectMainComponent}
-            XP={XP}
-            setXP={setXP}
-          />
-          <Projects
-            onSelectMainComponent={handleSelectMainComponent}
-            selectMainComponent={selectMainComponent}
-            projects={projects}
-            setProjects={setProjects}
-          />
-          <Skills
-            onSelectMainComponent={handleSelectMainComponent}
-            selectMainComponent={selectMainComponent}
-            skills={skills}
-            setSkills={setSkills}
-          />
-          <More
-            onSelectMainComponent={handleSelectMainComponent}
-            selectMainComponent={selectMainComponent}
-            data={more}
-            setData={setMore}
-          />
-        </div>
-      </div>
+    <PersonalInfoProvider>
       <div>
-        <div className="hidden lg:h-screen lg:flex lg:justify-center lg:items-center ">
-          <A4Sheet
-            info={info}
-            summary={summary}
-            edu={edu}
-            XP={XP}
-            projects={projects}
-            skills={skills}
-            more={more}
-            id={"bigScreen"}
-          />
+        <div>
+          <div>
+            <h2>Curriculum Vitae</h2>
+            <p>Your perfect CV made fast and effortless.</p>
+          </div>
+          <div>
+            <PersonalInformation
+              onSelectMainComponent={handleSelectMainComponent}
+              selectMainComponent={selectMainComponent}
+            />
+            <ProfileSummary
+              onSelectMainComponent={handleSelectMainComponent}
+              selectMainComponent={selectMainComponent}
+            />
+            <Education
+              onSelectMainComponent={handleSelectMainComponent}
+              selectMainComponent={selectMainComponent}
+              edu={edu}
+              setEdu={setEdu}
+            />
+            <WorkExperience
+              onSelectMainComponent={handleSelectMainComponent}
+              selectMainComponent={selectMainComponent}
+              XP={XP}
+              setXP={setXP}
+            />
+            <Projects
+              onSelectMainComponent={handleSelectMainComponent}
+              selectMainComponent={selectMainComponent}
+              projects={projects}
+              setProjects={setProjects}
+            />
+            <Skills
+              onSelectMainComponent={handleSelectMainComponent}
+              selectMainComponent={selectMainComponent}
+              skills={skills}
+              setSkills={setSkills}
+            />
+            <More
+              onSelectMainComponent={handleSelectMainComponent}
+              selectMainComponent={selectMainComponent}
+              data={more}
+              setData={setMore}
+            />
+          </div>
         </div>
-
-        {preview && (
-          <div className="lg:hidden flex justify-center items-center mb-14 mt-4">
+        <div>
+          <div>
             <A4Sheet
-              info={info}
-              summary={summary}
               edu={edu}
               XP={XP}
               projects={projects}
               skills={skills}
               more={more}
-              id={"smallScreen"}
+              id={"bigScreen"}
             />
           </div>
-        )}
-      </div>
 
-      <div
-        className="flex gap-5 w-full h-[10vh] justify-evenly items-center fixed bottom-0 border-t border-indigo-800 lg:flex-col lg:w-auto  lg:gap-6 lg:fixed lg:right-0 lg:bottom-0
-       lg:justify-center lg:self-center  lg:border-none lg:h-screen lg:p-10 "
-      >
-        <div className="lg:hidden" onClick={() => setPreview(!preview)}>
-          <div
-            className="button lg:hidden"
-            onClick={() => setPreview(!preview)}
-          >
-            {preview ? <EditIcon /> : <EyeIcon />}
+          {preview && (
+            <div>
+              <A4Sheet
+                edu={edu}
+                XP={XP}
+                projects={projects}
+                skills={skills}
+                more={more}
+                id={"smallScreen"}
+              />
+            </div>
+          )}
+        </div>
+
+        <div>
+          <div onClick={() => setPreview(!preview)}>
+            <div onClick={() => setPreview(!preview)}>
+              {preview ? <EditIcon /> : <EyeIcon />}
+            </div>
+          </div>
+          <div onClick={deleteResume}>
+            <DeleteIcon />
+          </div>
+          <div onClick={resetResume}>
+            <ResetIcon />
+          </div>
+          <div onClick={handleDownloadPDF}>
+            <DownloadIcon />
+          </div>
+          <div>
+            <PrintIcon />
           </div>
         </div>
-        <div className="button" onClick={deleteResume}>
-          <DeleteIcon />
-        </div>
-        <div className="button" onClick={resetResume}>
-          <ResetIcon />
-        </div>
-        <div className="button" onClick={handleDownloadPDF}>
-          <DownloadIcon />
-        </div>
-        <div className="button">
-          <PrintIcon />
-        </div>
       </div>
-    </div>
+    </PersonalInfoProvider>
   );
 }
-function A4Sheet({ info, summary, edu, XP, projects, skills, more, id }) {
+function A4Sheet({ edu, XP, projects, skills, more, id }) {
+  const { firstName, lastName, phone, email, address, summary } =
+    usePersonalInfo();
   return (
-    <div id={id} className="sheet">
-      <h1 className="text-[90%] font-extrabold text-center">{`${info.firstName} ${info.lastName}`}</h1>
-      <p className="text-[50%] text-center">{`${info.email} | ${info.phone} | ${info.address}`}</p>
+    <div id={id}>
+      <h1>{`${firstName} ${lastName}`}</h1>
+      <p>{`${email} | ${phone} | ${address}`}</p>
       <br></br>
-      <h3 className="text-[70%] font-bold">Career Objective</h3>
+      <h3>Career Objective</h3>
       <hr></hr>
-      <p className="text-[50%]">{summary}</p>
+      <p>{summary}</p>
       <br></br>
-      <h3 className="text-[70%] font-bold">Education</h3>
+      <h3>Education</h3>
       <hr></hr>
       {edu.map((x) => (
         <div key={x.id}>
-          <div className=" flex justify-between">
-            <span className="text-[50%] font-semibold">{x.course}</span>
-            <span className="text-[50%] font-semibold">{`${x.startDate} - ${x.endDate}`}</span>
+          <div>
+            <span>{x.course}</span>
+            <span>{`${x.startDate} - ${x.endDate}`}</span>
           </div>
-          <p className="text-[50%]">{x.school}</p>
+          <p>{x.school}</p>
           <br></br>
         </div>
       ))}
-      <h3 className="text-[70%] font-bold">Work Experience</h3>
+      <h3>Work Experience</h3>
       <hr></hr>
       {XP.map((x) => (
         <div key={x.id}>
-          <div className=" flex justify-between">
-            <span className="text-[50%] font-semibold">{`${x.position} | ${x.company}`}</span>
-            <span className="text-[50%] font-semibold">{`${x.startDate} - ${x.endDate}`}</span>
+          <div>
+            <span>{`${x.position} | ${x.company}`}</span>
+            <span>{`${x.startDate} - ${x.endDate}`}</span>
           </div>
-          <li className="text-[50%]">{x.description}</li>
+          <li>{x.description}</li>
           <br></br>
         </div>
       ))}
-      <h3 className="text-[70%] font-bold">Projects</h3>
+      <h3>Projects</h3>
       <hr></hr>
       {projects.map((x) => (
         <div key={x.id}>
-          <div className=" flex justify-between">
-            <span className="text-[50%] font-semibold">{`${x.title} | ${x.techStack}`}</span>
-            <span className="text-[50%] font-semibold">{`${x.startDate} - ${x.endDate}`}</span>
+          <div>
+            <span>{`${x.title} | ${x.techStack}`}</span>
+            <span>{`${x.startDate} - ${x.endDate}`}</span>
           </div>
-          <li className="text-[50%]">{x.description}</li>
+          <li>{x.description}</li>
           <br></br>
         </div>
       ))}
       {more.map((x) => (
         <div key={x.id}>
-          <h3 className="text-[70%] font-bold">{x.name}</h3>
+          <h3>{x.name}</h3>
           <hr></hr>
 
-          <span className=" flex justify-between" key={x.details[0].id}>
-            <span className="text-[50%] font-semibold">{`${x.details[0].value}`}</span>
+          <span key={x.details[0].id}>
+            <span>{`${x.details[0].value}`}</span>
 
             <a href={x.details[1]?.url}>
-              <span className="text-[50%] font-semibold">
-                {x.details[1]?.linkText}
-              </span>
+              <span>{x.details[1]?.linkText}</span>
             </a>
           </span>
         </div>

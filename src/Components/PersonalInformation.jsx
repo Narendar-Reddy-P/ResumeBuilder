@@ -1,16 +1,33 @@
 import { MainComponentHeaderToggler } from "../Utility";
 import userIcon from "../assets/images/icons/user-icon.svg";
-import { Input } from "../Utility";
+import { Input } from "../MinorComponents/Input";
+import { usePersonalInfo } from "../contexts/personalContext";
 
 export function PersonalInformation({
   onSelectMainComponent,
   selectMainComponent,
-  info,
-  setInfo,
 }) {
+  const {
+    firstName,
+    lastName,
+    jobTitle,
+    phone,
+    email,
+    github,
+    portfolio,
+    address,
+    changeFirstName,
+    changeLastName,
+    changeJobTitle,
+    changePhone,
+    changeEmail,
+    changeGithub,
+    changePortfolio,
+    changeAddress,
+  } = usePersonalInfo();
   const text = "Personal Information";
   return (
-    <div className="mainComponent">
+    <div>
       <MainComponentHeaderToggler
         mainIcon={userIcon}
         text="Personal Information"
@@ -18,123 +35,63 @@ export function PersonalInformation({
         selectMainComponent={selectMainComponent}
       />
       {selectMainComponent === text && (
-        <div className="w-full pb-4 flex flex-col gap-3">
-          <div className=" w-full px-4 ">
-            <label
-              htmlFor="firstName"
-              className="text-indigo-900 cursor-pointer"
-            >
-              {"First Name"}
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id="firstName"
-              value={info.firstName}
-              onChange={(e) => setInfo({ ...info, firstName: e.target.value })}
-            />
-          </div>
-          <div className=" w-full px-4 ">
-            <label
-              htmlFor="lastName"
-              className="text-indigo-900 cursor-pointer"
-            >
-              Last Name
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id="lastName"
-              value={info.lastName}
-              onChange={(e) => setInfo({ ...info, lastName: e.target.value })}
-            />
-          </div>
-          <div className=" w-full px-4 ">
-            <label
-              htmlFor="jobTitle"
-              className="text-indigo-900 cursor-pointer"
-            >
-              Job Title
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id="jobTitle"
-              value={info.jobTitle}
-              onClick={(e) => setInfo({ ...info, jobTitle: e.target.value })}
-            />
-          </div>
-          <div className=" w-full px-4 ">
-            <label htmlFor="phone" className="text-indigo-900 cursor-pointer">
-              Phone
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id="phone"
-              value={info.phone}
-              onChange={(e) => setInfo({ ...info, phone: e.target.value })}
-            />
-          </div>
-          <div className=" w-full px-4 ">
-            <label htmlFor="email" className="text-indigo-900 cursor-pointer">
-              Email
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id="email"
-              value={info.email}
-              onChange={(e) => setInfo({ ...info, email: e.target.value })}
-            />
-          </div>
-          <div className=" w-full px-4 ">
-            <label htmlFor="github" className="text-indigo-900 cursor-pointer">
-              GitHub
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id="github"
-              value={info.github}
-              onChange={(e) => setInfo({ ...info, github: e.target.value })}
-            />
-          </div>
-          <div className=" w-full px-4 ">
-            <label
-              htmlFor="portfolio"
-              className="text-indigo-900 cursor-pointer"
-            >
-              Portfolio
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id="portfolio"
-              value={info.portfolio}
-              onChange={(e) => setInfo({ ...info, portfolio: e.target.value })}
-            />
-          </div>
-          <div className=" w-full px-4 ">
-            <label htmlFor="address" className="text-indigo-900 cursor-pointer">
-              Address
-            </label>
-            <br />
-            <input
-              type="text"
-              className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-              id="address"
-              value={info.address}
-              onChnage={(e) => setInfo({ ...info, address: e.target.value })}
-            />
-          </div>
+        <div>
+          <Input
+            id="firstName"
+            type="text"
+            header="First Name"
+            value={firstName}
+            onChange={(e) => changeFirstName(e.target.value)}
+          />
+          <Input
+            id="lastName"
+            type="text"
+            header="Last Name"
+            value={lastName}
+            onChange={(e) => changeLastName(e.target.value)}
+          />
+          <Input
+            id="jobTitle"
+            type="text"
+            header="Job Title"
+            value={jobTitle}
+            onChange={(e) => changeJobTitle(e.target.value)}
+          />
+          <Input
+            id="phone"
+            type="text"
+            header="Phone"
+            value={phone}
+            onChange={(e) => changePhone(e.target.value)}
+          />
+          <Input
+            id="email"
+            type="text"
+            header="Email"
+            value={email}
+            onChange={(e) => changeEmail(e.target.value)}
+          />
+          <Input
+            id="github"
+            type="text"
+            header="GitHub"
+            value={github}
+            onChange={(e) => changeGithub(e.target.value)}
+          />
+          <Input
+            id="portfolio"
+            type="text"
+            header="Portfolio"
+            value={portfolio}
+            onChange={(e) => changePortfolio(e.target.value)}
+          />
+          <Input
+            id="address"
+            type="text"
+            header="Address"
+            value={address}
+            onChange={(e) => changeAddress(e.target.value)}
+          />
         </div>
       )}
     </div>
