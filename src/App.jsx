@@ -1,7 +1,7 @@
 import { useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import styles from "./App.module.css";
+// import styles from "./App.module.css";
 import {
   PersonalInfoProvider,
   usePersonalInfo,
@@ -33,14 +33,7 @@ import {
   ProjectsContextProvider,
   useProjects,
 } from "./contexts/ProjectsContext";
-
-const skillsList = [
-  { id: crypto.randomUUID(), name: "JavaScript" },
-  { id: crypto.randomUUID(), name: "React" },
-  { id: crypto.randomUUID(), name: "Node.js" },
-  { id: crypto.randomUUID(), name: "MongoDB" },
-  { id: crypto.randomUUID(), name: "Tailwind CSS" },
-];
+// import { useSkills } from "./contexts/SkillsContext";
 
 let tempMore = [
   {
@@ -70,13 +63,6 @@ let tempMore = [
         value: "English (Fluent), Hindi (Native)",
       },
     ],
-  },
-];
-
-const skillsListEmpty = [
-  {
-    id: crypto.randomUUID(),
-    name: "",
   },
 ];
 
@@ -192,8 +178,6 @@ const handleDownloadPDF = async () => {
 function App() {
   const [preview, setPreview] = useState(false);
 
-  const [skills, setSkills] = useState(skillsList);
-
   const [more, setMore] = useState(tempMore);
 
   function deleteResume() {
@@ -202,7 +186,7 @@ function App() {
     // setEdu(coursesEmpty);
     // setXP(workXPsEmpty);
     // setProjects(tempProjectsEmpty);
-    setSkills(skillsListEmpty);
+    // setSkills(skillsListEmpty);
     setMore(tempMoreEmpty);
   }
 
@@ -212,7 +196,7 @@ function App() {
     // setEdu(courses);
     // setXP(workXPs);
     // setProjects(tempProjects);
-    setSkills(skillsList);
+    // setSkills(skillsList);
     setMore(tempMore);
   }
   return (
@@ -233,18 +217,18 @@ function App() {
                     <Education />
                     <WorkExperience />
                     <Projects />
-                    <Skills skills={skills} setSkills={setSkills} />
+                    <Skills />
                     <More data={more} setData={setMore} />
                   </div>
                 </div>
                 <div>
                   <div>
-                    <A4Sheet skills={skills} more={more} id={"bigScreen"} />
+                    <A4Sheet more={more} id={"bigScreen"} />
                   </div>
 
                   {preview && (
                     <div>
-                      <A4Sheet skills={skills} more={more} id={"smallScreen"} />
+                      <A4Sheet more={more} id={"smallScreen"} />
                     </div>
                   )}
                 </div>
@@ -276,12 +260,14 @@ function App() {
     </TogglerContextProvider>
   );
 }
-function A4Sheet({ skills, more, id }) {
+function A4Sheet({ more, id }) {
   const { firstName, lastName, phone, email, address, summary } =
     usePersonalInfo();
   const { education } = useEducation();
   const { works } = useWork();
   const { projects } = useProjects();
+  // const { skills } = useSkills();
+
   return (
     <div id={id}>
       <h1>{`${firstName} ${lastName}`}</h1>

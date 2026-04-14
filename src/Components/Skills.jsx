@@ -4,22 +4,12 @@ import { CircularPlus } from "../Icon";
 import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import { useComponent } from "../contexts/TogglerContext";
 import { Icon } from "../MinorComponents/Icon";
-import { Input } from "../MinorComponents/Input";
+import { useSkills } from "../contexts/SkillsContext";
 
-export function Skills({ skills, setSkills }) {
+export function Skills() {
   const { component } = useComponent();
+  const { skills, addSkill } = useSkills();
 
-  function addSkill() {
-    setSkills([...skills, { id: crypto.randomUUID(), name: "" }]);
-  }
-
-  function removeSkill(id) {
-    setSkills(skills.filter((skill) => skill.id !== id));
-  }
-
-  function handleChangeSkill(id, value) {
-    setSkills(skills.map((x) => (x.id !== id ? x : { ...x, name: value })));
-  }
   return (
     <div>
       <ComponentHeader mainIcon={sparkles} text={"Skills"} />
@@ -27,13 +17,7 @@ export function Skills({ skills, setSkills }) {
         <div>
           <div>
             {skills.map((skill) => (
-              <Skill
-                key={skill.id}
-                name={skill.name}
-                removeSkill={removeSkill}
-                id={skill.id}
-                onChangeSkill={handleChangeSkill}
-              />
+              <Skill key={skill.id} skill={skill} />
             ))}
           </div>
           <div onClick={addSkill}>
@@ -46,11 +30,16 @@ export function Skills({ skills, setSkills }) {
   );
 }
 
-function Skill({ name, removeSkill, id, onChangeSkill }) {
+function Skill({ skill }) {
+  const { removeSkill, changeSkill } = useSkills();
   return (
     <div>
-      <input value={name} onChange={onChangeSkill}></input>
-      <Icon src={deleteIcon} onClick={() => removeSkill(id)} size={"small"} />
+      <input value={skill.name} onChange={changeSkill}></input>
+      <Icon
+        src={deleteIcon}
+        onClick={() => removeSkill(skill.id)}
+        size={"small"}
+      />
     </div>
   );
 }
