@@ -4,16 +4,13 @@ import deleteIcon from "../assets/images/icons/delete-icon.svg";
 
 import projectIcon from "../assets/images/icons/projects-icon.svg";
 
-import { MainComponentHeaderToggler } from "../Utility";
 import { CircularPlus } from "../Icon";
+import { ComponentHeader } from "../MinorComponents/ComponentHeader";
+import { useComponent } from "../contexts/TogglerContext";
 
-export function Projects({
-  onSelectMainComponent,
-  selectMainComponent,
-  projects,
-  setProjects,
-}) {
+export function Projects({ projects, setProjects }) {
   const [selectProject, setSelectProject] = useState(projects[0]?.id || "");
+  const { component } = useComponent();
 
   function handleSelectProject(id) {
     if (selectProject === id) {
@@ -72,13 +69,8 @@ export function Projects({
 
   return (
     <div>
-      <MainComponentHeaderToggler
-        mainIcon={projectIcon}
-        text={"Projects"}
-        onSelectMainComponent={onSelectMainComponent}
-        selectMainComponent={selectMainComponent}
-      />
-      {selectMainComponent === "Projects" && (
+      <ComponentHeader mainIcon={projectIcon} text={"Projects"} />
+      {component === "Projects" && (
         <div>
           <div>
             {projects.map((project) => (

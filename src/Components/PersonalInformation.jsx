@@ -1,12 +1,10 @@
-import { MainComponentHeaderToggler } from "../Utility";
+import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import userIcon from "../assets/images/icons/user-icon.svg";
 import { Input } from "../MinorComponents/Input";
 import { usePersonalInfo } from "../contexts/personalContext";
+import { useComponent } from "../contexts/TogglerContext";
 
-export function PersonalInformation({
-  onSelectMainComponent,
-  selectMainComponent,
-}) {
+export function PersonalInformation() {
   const {
     firstName,
     lastName,
@@ -25,16 +23,12 @@ export function PersonalInformation({
     changePortfolio,
     changeAddress,
   } = usePersonalInfo();
+  const { component } = useComponent();
   const text = "Personal Information";
   return (
     <div>
-      <MainComponentHeaderToggler
-        mainIcon={userIcon}
-        text="Personal Information"
-        onSelectMainComponent={onSelectMainComponent}
-        selectMainComponent={selectMainComponent}
-      />
-      {selectMainComponent === text && (
+      <ComponentHeader mainIcon={userIcon} text="Personal Information" />
+      {component === text && (
         <div>
           <Input
             id="firstName"

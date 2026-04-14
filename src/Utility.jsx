@@ -1,8 +1,6 @@
 import deleteIcon from "./assets/images/icons/delete-icon.svg";
 import togglerDown from "./assets/images/icons/toggler-down.svg";
-import togglerUp from "./assets/images/icons/toggler-up.svg";
 import { DeleteIcon, CircularPlus } from "./Icon";
-import styles from "./Utility.module.css";
 
 export function Image({ url }) {
   return <img src={url} className="icon" />;
@@ -27,25 +25,6 @@ export function TextArea({ id, header, value = "", onChange = {}, rows = 5 }) {
     </div>
   );
 }
-
-export function MainComponentHeaderToggler({
-  mainIcon,
-  text,
-  onSelectMainComponent,
-  selectMainComponent,
-}) {
-  let isOpen = selectMainComponent === text;
-  return (
-    <div onClick={() => onSelectMainComponent(text)} className={styles.header}>
-      <Image url={mainIcon} />
-      <h3>{text}</h3>
-      <div>
-        {isOpen ? <Image url={togglerUp} /> : <Image url={togglerDown} />}
-      </div>
-    </div>
-  );
-}
-
 export function WEForm({
   data,
   isOpen,

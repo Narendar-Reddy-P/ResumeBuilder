@@ -3,25 +3,22 @@ import deleteIcon from "../assets/images/icons/delete-icon.svg";
 
 import briefcase from "../assets/images/icons/briefcase.svg";
 
-import { MainComponentHeaderToggler } from "../Utility";
 import { CircularPlus } from "../Icon";
 import { useWork } from "../contexts/workContext";
 import { Icon } from "../MinorComponents/Icon";
 import { Input } from "../MinorComponents/Input";
 import { TextArea } from "../MinorComponents/TextArea";
+import { ComponentHeader } from "../MinorComponents/ComponentHeader";
+import { useComponent } from "../contexts/TogglerContext";
 
-export function WorkExperience({ onSelectMainComponent, selectMainComponent }) {
+export function WorkExperience() {
   const { works, addWork } = useWork();
+  const { component } = useComponent();
   const text = "Work Experience";
   return (
     <div>
-      <MainComponentHeaderToggler
-        mainIcon={briefcase}
-        text={text}
-        onSelectMainComponent={onSelectMainComponent}
-        selectMainComponent={selectMainComponent}
-      />
-      {selectMainComponent === text && (
+      <ComponentHeader mainIcon={briefcase} text={text} />
+      {component === text && (
         <div>
           <div>
             {works.map((workXP) => (

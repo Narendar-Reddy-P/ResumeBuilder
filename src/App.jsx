@@ -28,6 +28,7 @@ import {
   useEducation,
 } from "./contexts/educationContext";
 import { useWork, WorkContextProvider } from "./contexts/workContext";
+import { TogglerContextProvider } from "./contexts/TogglerContext";
 
 const skillsList = [
   { id: crypto.randomUUID(), name: "JavaScript" },
@@ -214,7 +215,6 @@ const handleDownloadPDF = async () => {
 };
 
 function App() {
-  const [selectMainComponent, setSelectMainComponent] = useState("");
   const [preview, setPreview] = useState(false);
 
   const [projects, setProjects] = useState(tempProjects);
@@ -222,14 +222,6 @@ function App() {
   const [skills, setSkills] = useState(skillsList);
 
   const [more, setMore] = useState(tempMore);
-
-  function handleSelectMainComponent(text) {
-    if (selectMainComponent === text) {
-      setSelectMainComponent("");
-    } else {
-      setSelectMainComponent(text);
-    }
-  }
 
   function deleteResume() {
     // deletePersonalInfo();
@@ -251,97 +243,72 @@ function App() {
     setMore(tempMore);
   }
   return (
-    <PersonalInfoProvider>
-      <EducationContextProvider>
-        <WorkContextProvider>
-          <div>
+    <TogglerContextProvider>
+      <PersonalInfoProvider>
+        <EducationContextProvider>
+          <WorkContextProvider>
             <div>
               <div>
-                <h2>Curriculum Vitae</h2>
-                <p>Your perfect CV made fast and effortless.</p>
+                <div>
+                  <h2>Curriculum Vitae</h2>
+                  <p>Your perfect CV made fast and effortless.</p>
+                </div>
+                <div>
+                  <PersonalInformation />
+                  <ProfileSummary />
+                  <Education />
+                  <WorkExperience />
+                  <Projects projects={projects} setProjects={setProjects} />
+                  <Skills skills={skills} setSkills={setSkills} />
+                  <More data={more} setData={setMore} />
+                </div>
               </div>
               <div>
-                <PersonalInformation
-                  onSelectMainComponent={handleSelectMainComponent}
-                  selectMainComponent={selectMainComponent}
-                />
-                <ProfileSummary
-                  onSelectMainComponent={handleSelectMainComponent}
-                  selectMainComponent={selectMainComponent}
-                />
-                <Education
-                  onSelectMainComponent={handleSelectMainComponent}
-                  selectMainComponent={selectMainComponent}
-                />
-                <WorkExperience
-                  onSelectMainComponent={handleSelectMainComponent}
-                  selectMainComponent={selectMainComponent}
-                />
-                <Projects
-                  onSelectMainComponent={handleSelectMainComponent}
-                  selectMainComponent={selectMainComponent}
-                  projects={projects}
-                  setProjects={setProjects}
-                />
-                <Skills
-                  onSelectMainComponent={handleSelectMainComponent}
-                  selectMainComponent={selectMainComponent}
-                  skills={skills}
-                  setSkills={setSkills}
-                />
-                <More
-                  onSelectMainComponent={handleSelectMainComponent}
-                  selectMainComponent={selectMainComponent}
-                  data={more}
-                  setData={setMore}
-                />
-              </div>
-            </div>
-            <div>
-              <div>
-                <A4Sheet
-                  projects={projects}
-                  skills={skills}
-                  more={more}
-                  id={"bigScreen"}
-                />
-              </div>
-
-              {preview && (
                 <div>
                   <A4Sheet
                     projects={projects}
                     skills={skills}
                     more={more}
-                    id={"smallScreen"}
+                    id={"bigScreen"}
                   />
                 </div>
-              )}
-            </div>
 
-            <div>
-              <div onClick={() => setPreview(!preview)}>
+                {preview && (
+                  <div>
+                    <A4Sheet
+                      projects={projects}
+                      skills={skills}
+                      more={more}
+                      id={"smallScreen"}
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div>
                 <div onClick={() => setPreview(!preview)}>
-                  {preview ? <EditIcon /> : <EyeIcon />}
+                  <div onClick={() => setPreview(!preview)}>
+                    {preview ? <EditIcon /> : <EyeIcon />}
+                  </div>
+                </div>
+                <div onClick={deleteResume}>
+                  <DeleteIcon />
+                </div>
+                <div onClick={resetResume}>
+                  <ResetIcon />
+                </div>
+                <div onClick={handleDownloadPDF}>
+                  <DownloadIcon />
+                </div>
+                <div>
+                  <PrintIcon />
                 </div>
               </div>
-              <div onClick={deleteResume}>
-                <DeleteIcon />
-              </div>
-              <div onClick={resetResume}>
-                <ResetIcon />
-              </div>
-              <div onClick={handleDownloadPDF}>
-                <DownloadIcon />
-              </div>
-              <div>
-                <PrintIcon />
-              </div>
             </div>
-          </div>
-        </WorkContextProvider>
-      </EducationContextProvider>
-    </PersonalInfoProvider>
+          </WorkContextProvider>
+        </EducationContextProvider>
+      </PersonalInfoProvider>
+    </TogglerContextProvider>
   );
 }
 function A4Sheet({ projects, skills, more, id }) {

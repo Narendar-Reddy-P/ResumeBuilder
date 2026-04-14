@@ -1,4 +1,3 @@
-import { MainComponentHeaderToggler } from "../Utility";
 import academicCap from "../assets/images/icons/academic-cap.svg";
 import togglerDown from "../assets/images/icons/toggler-down.svg";
 import deleteIcon from "../assets/images/icons/delete-icon.svg";
@@ -9,20 +8,18 @@ import { TextArea } from "../MinorComponents/TextArea";
 import { CircularPlus } from "../Icon";
 
 import { useEducation } from "../contexts/educationContext";
+import { ComponentHeader } from "../MinorComponents/ComponentHeader";
+import { useComponent } from "../contexts/TogglerContext";
 
-export function Education({ onSelectMainComponent, selectMainComponent }) {
+export function Education() {
   const { education, addEducation } = useEducation();
+  const { component } = useComponent();
   const text = "Education";
 
   return (
     <div>
-      <MainComponentHeaderToggler
-        mainIcon={academicCap}
-        text={text}
-        onSelectMainComponent={onSelectMainComponent}
-        selectMainComponent={selectMainComponent}
-      />
-      {selectMainComponent === text && (
+      <ComponentHeader mainIcon={academicCap} text={text} />
+      {component === text && (
         <div>
           <div>
             {education.map((tut) => (

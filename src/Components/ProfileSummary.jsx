@@ -1,18 +1,16 @@
 import summaryIcon from "../assets/images/icons/user-summary.svg";
 import { usePersonalInfo } from "../contexts/personalContext";
-import { MainComponentHeaderToggler, TextArea } from "../Utility";
+import { TextArea } from "../Utility";
+import { ComponentHeader } from "../MinorComponents/ComponentHeader";
+import { useComponent } from "../contexts/TogglerContext";
 
-export function ProfileSummary({ onSelectMainComponent, selectMainComponent }) {
+export function ProfileSummary() {
   const { summary, changeSummary } = usePersonalInfo();
+  const { component } = useComponent();
   return (
     <div>
-      <MainComponentHeaderToggler
-        mainIcon={summaryIcon}
-        text={"Profile Summary"}
-        onSelectMainComponent={onSelectMainComponent}
-        selectMainComponent={selectMainComponent}
-      />
-      {selectMainComponent === "Profile Summary" && (
+      <ComponentHeader mainIcon={summaryIcon} text={"Profile Summary"} />
+      {component === "Profile Summary" && (
         <div>
           <TextArea
             header={

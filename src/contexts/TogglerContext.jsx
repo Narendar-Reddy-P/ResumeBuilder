@@ -1,9 +1,33 @@
-import { createContext } from "react";
+import { createContext, useContext, useState } from "react";
 
 const TogglerContext = createContext();
 
 function TogglerContextProvider({ children }) {
-  return <TogglerContext.Provider>{children}</TogglerContext.Provider>;
+  const [component, setComponent] = useState("");
+
+  function toggleComponent(text) {
+    if (component === text) {
+      setComponent("");
+    } else {
+      setComponent(text);
+    }
+  }
+
+  return (
+    <TogglerContext.Provider value={{ component, toggleComponent }}>
+      {children}
+    </TogglerContext.Provider>
+  );
 }
 
-export { TogglerContextProvider };
+function useComponent() {
+  const context = useContext(TogglerContext);
+  if (context === undefined) {
+    throw new Error(
+      "useComponent must be used within a TogglerContextProvider",
+    );
+  }
+  return context;
+}
+
+export { TogglerContextProvider, useComponent }; //eslint-disable-line

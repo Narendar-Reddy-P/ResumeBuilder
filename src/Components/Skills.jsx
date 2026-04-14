@@ -1,14 +1,12 @@
-import { MainComponentHeaderToggler } from "../Utility";
 import sparkles from "../assets/images/icons/sparkles.svg";
 import deleteIcon from "../assets/images/icons/delete-icon.svg";
 import { CircularPlus } from "../Icon";
+import { ComponentHeader } from "../MinorComponents/ComponentHeader";
+import { useComponent } from "../contexts/TogglerContext";
 
-export function Skills({
-  onSelectMainComponent,
-  selectMainComponent,
-  skills,
-  setSkills,
-}) {
+export function Skills({ skills, setSkills }) {
+  const { component } = useComponent();
+
   function addSkill() {
     setSkills([...skills, { id: crypto.randomUUID(), name: "" }]);
   }
@@ -22,13 +20,8 @@ export function Skills({
   }
   return (
     <div>
-      <MainComponentHeaderToggler
-        mainIcon={sparkles}
-        text={"Skills"}
-        onSelectMainComponent={onSelectMainComponent}
-        selectMainComponent={selectMainComponent}
-      />
-      {selectMainComponent === "Skills" && (
+      <ComponentHeader mainIcon={sparkles} text={"Skills"} />
+      {component === "Skills" && (
         <div>
           <div>
             {skills.map((skill) => (

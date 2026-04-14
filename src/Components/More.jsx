@@ -1,17 +1,15 @@
-import { MainComponentHeaderToggler, Input } from "../Utility";
+import { Input } from "../Utility";
 import ellipsis from "../assets/images/icons/ellipsis-horizontal.svg";
 import { CircularPlus } from "../Icon";
 import deleteIcon from "../assets/images/icons/delete-icon.svg";
 import togglerDown from "../assets/images/icons/toggler-down.svg";
 import { useState } from "react";
+import { ComponentHeader } from "../MinorComponents/ComponentHeader";
+import { useComponent } from "../contexts/TogglerContext";
 
-export function More({
-  onSelectMainComponent,
-  selectMainComponent,
-  data,
-  setData,
-}) {
+export function More({ data, setData }) {
   const [selectedSection, setSelectedSection] = useState(data[0]?.id || "");
+  const { component } = useComponent();
 
   function handleSelectedSection(id) {
     if (selectedSection === id) {
@@ -56,13 +54,8 @@ export function More({
 
   return (
     <div>
-      <MainComponentHeaderToggler
-        mainIcon={ellipsis}
-        text={"More"}
-        onSelectMainComponent={onSelectMainComponent}
-        selectMainComponent={selectMainComponent}
-      />
-      {selectMainComponent === "More" && (
+      <ComponentHeader mainIcon={ellipsis} text={"More"} />
+      {component === "More" && (
         <div>
           <div>
             {data.map((section) => (
