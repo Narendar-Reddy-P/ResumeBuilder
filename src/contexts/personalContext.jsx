@@ -146,7 +146,7 @@ function PersonalInfoProvider({ children }) {
 function usePersonalInfo() {
   const context = useContext(PersonalInfoContext);
   if (context === undefined) {
-    throw new Error("PersonalInfo was used outside of cities provider");
+    throw new Error("PersonalInfo was used outside of personalInfo provider");
   }
   return context;
 }

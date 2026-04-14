@@ -23,27 +23,10 @@ import { Education } from "./Components/Education";
 import { Skills } from "./Components/Skills";
 import { More } from "./Components/More";
 import { Projects } from "./Components/Projects";
-
-let courses = [
-  {
-    id: crypto.randomUUID(),
-    school: "Indian Institute of Technology Madras",
-    course: "Full Stack Web Development",
-    startDate: "Jan 2022",
-    endDate: "Jun 2022",
-    description:
-      "Completed intensive training in MERN stack. Built REST APIs, implemented authentication using JWT, and deployed applications using Docker and Nginx.",
-  },
-  {
-    id: crypto.randomUUID(),
-    school: "Udemy",
-    course: "Advanced React & Redux",
-    startDate: "Aug 2021",
-    endDate: "Oct 2021",
-    description:
-      "Learned advanced React patterns, custom hooks, state management with Redux Toolkit, and performance optimization techniques.",
-  },
-];
+import {
+  EducationContextProvider,
+  useEducation,
+} from "./contexts/educationContext";
 
 let workXPs = [
   {
@@ -123,17 +106,6 @@ let tempMore = [
         value: "English (Fluent), Hindi (Native)",
       },
     ],
-  },
-];
-
-let coursesEmpty = [
-  {
-    id: crypto.randomUUID(),
-    school: "",
-    course: "",
-    startDate: "",
-    endDate: "",
-    description: "",
   },
 ];
 
@@ -279,8 +251,6 @@ function App() {
   const [selectMainComponent, setSelectMainComponent] = useState("");
   const [preview, setPreview] = useState(false);
 
-  const [edu, setEdu] = useState(courses);
-
   const [XP, setXP] = useState(workXPs);
 
   const [projects, setProjects] = useState(tempProjects);
@@ -300,7 +270,7 @@ function App() {
   function deleteResume() {
     // deletePersonalInfo();
     // setSummary(profileSummaryEmpty);
-    setEdu(coursesEmpty);
+    // setEdu(coursesEmpty);
     setXP(workXPsEmpty);
     setProjects(tempProjectsEmpty);
     setSkills(skillsListEmpty);
@@ -310,7 +280,7 @@ function App() {
   function resetResume() {
     // resetPersonalInfo();
     // setSummary(profileSummary);
-    setEdu(courses);
+    // setEdu(courses);
     setXP(workXPs);
     setProjects(tempProjects);
     setSkills(skillsList);
@@ -318,105 +288,104 @@ function App() {
   }
   return (
     <PersonalInfoProvider>
-      <div>
+      <EducationContextProvider>
         <div>
           <div>
-            <h2>Curriculum Vitae</h2>
-            <p>Your perfect CV made fast and effortless.</p>
+            <div>
+              <h2>Curriculum Vitae</h2>
+              <p>Your perfect CV made fast and effortless.</p>
+            </div>
+            <div>
+              <PersonalInformation
+                onSelectMainComponent={handleSelectMainComponent}
+                selectMainComponent={selectMainComponent}
+              />
+              <ProfileSummary
+                onSelectMainComponent={handleSelectMainComponent}
+                selectMainComponent={selectMainComponent}
+              />
+              <Education
+                onSelectMainComponent={handleSelectMainComponent}
+                selectMainComponent={selectMainComponent}
+              />
+              <WorkExperience
+                onSelectMainComponent={handleSelectMainComponent}
+                selectMainComponent={selectMainComponent}
+                XP={XP}
+                setXP={setXP}
+              />
+              <Projects
+                onSelectMainComponent={handleSelectMainComponent}
+                selectMainComponent={selectMainComponent}
+                projects={projects}
+                setProjects={setProjects}
+              />
+              <Skills
+                onSelectMainComponent={handleSelectMainComponent}
+                selectMainComponent={selectMainComponent}
+                skills={skills}
+                setSkills={setSkills}
+              />
+              <More
+                onSelectMainComponent={handleSelectMainComponent}
+                selectMainComponent={selectMainComponent}
+                data={more}
+                setData={setMore}
+              />
+            </div>
           </div>
           <div>
-            <PersonalInformation
-              onSelectMainComponent={handleSelectMainComponent}
-              selectMainComponent={selectMainComponent}
-            />
-            <ProfileSummary
-              onSelectMainComponent={handleSelectMainComponent}
-              selectMainComponent={selectMainComponent}
-            />
-            <Education
-              onSelectMainComponent={handleSelectMainComponent}
-              selectMainComponent={selectMainComponent}
-              edu={edu}
-              setEdu={setEdu}
-            />
-            <WorkExperience
-              onSelectMainComponent={handleSelectMainComponent}
-              selectMainComponent={selectMainComponent}
-              XP={XP}
-              setXP={setXP}
-            />
-            <Projects
-              onSelectMainComponent={handleSelectMainComponent}
-              selectMainComponent={selectMainComponent}
-              projects={projects}
-              setProjects={setProjects}
-            />
-            <Skills
-              onSelectMainComponent={handleSelectMainComponent}
-              selectMainComponent={selectMainComponent}
-              skills={skills}
-              setSkills={setSkills}
-            />
-            <More
-              onSelectMainComponent={handleSelectMainComponent}
-              selectMainComponent={selectMainComponent}
-              data={more}
-              setData={setMore}
-            />
-          </div>
-        </div>
-        <div>
-          <div>
-            <A4Sheet
-              edu={edu}
-              XP={XP}
-              projects={projects}
-              skills={skills}
-              more={more}
-              id={"bigScreen"}
-            />
-          </div>
-
-          {preview && (
             <div>
               <A4Sheet
-                edu={edu}
                 XP={XP}
                 projects={projects}
                 skills={skills}
                 more={more}
-                id={"smallScreen"}
+                id={"bigScreen"}
               />
             </div>
-          )}
-        </div>
 
-        <div>
-          <div onClick={() => setPreview(!preview)}>
+            {preview && (
+              <div>
+                <A4Sheet
+                  XP={XP}
+                  projects={projects}
+                  skills={skills}
+                  more={more}
+                  id={"smallScreen"}
+                />
+              </div>
+            )}
+          </div>
+
+          <div>
             <div onClick={() => setPreview(!preview)}>
-              {preview ? <EditIcon /> : <EyeIcon />}
+              <div onClick={() => setPreview(!preview)}>
+                {preview ? <EditIcon /> : <EyeIcon />}
+              </div>
+            </div>
+            <div onClick={deleteResume}>
+              <DeleteIcon />
+            </div>
+            <div onClick={resetResume}>
+              <ResetIcon />
+            </div>
+            <div onClick={handleDownloadPDF}>
+              <DownloadIcon />
+            </div>
+            <div>
+              <PrintIcon />
             </div>
           </div>
-          <div onClick={deleteResume}>
-            <DeleteIcon />
-          </div>
-          <div onClick={resetResume}>
-            <ResetIcon />
-          </div>
-          <div onClick={handleDownloadPDF}>
-            <DownloadIcon />
-          </div>
-          <div>
-            <PrintIcon />
-          </div>
         </div>
-      </div>
+      </EducationContextProvider>
     </PersonalInfoProvider>
   );
 }
-function A4Sheet({ edu, XP, projects, skills, more, id }) {
+function A4Sheet({ XP, projects, skills, more, id }) {
   const { firstName, lastName, phone, email, address, summary } =
     usePersonalInfo();
+  const { education } = useEducation();
   return (
     <div id={id}>
       <h1>{`${firstName} ${lastName}`}</h1>
@@ -428,7 +397,7 @@ function A4Sheet({ edu, XP, projects, skills, more, id }) {
       <br></br>
       <h3>Education</h3>
       <hr></hr>
-      {edu.map((x) => (
+      {education.map((x) => (
         <div key={x.id}>
           <div>
             <span>{x.course}</span>

@@ -1,67 +1,18 @@
-import { MainComponentHeaderToggler, Input, TextArea } from "../Utility";
+import { MainComponentHeaderToggler } from "../Utility";
 import academicCap from "../assets/images/icons/academic-cap.svg";
 import togglerDown from "../assets/images/icons/toggler-down.svg";
 import deleteIcon from "../assets/images/icons/delete-icon.svg";
 import { Icon } from "../MinorComponents/Icon";
+import { Input } from "../MinorComponents/Input";
+import { TextArea } from "../MinorComponents/TextArea";
 
 import { CircularPlus } from "../Icon";
 
-import { useState } from "react";
+import { useEducation } from "../contexts/educationContext";
 
-export function Education({
-  onSelectMainComponent,
-  selectMainComponent,
-  edu,
-  setEdu,
-}) {
-  const [selectEdu, setSelectEdu] = useState(edu[0]?.id || "");
-
+export function Education({ onSelectMainComponent, selectMainComponent }) {
+  const { education, addEducation } = useEducation();
   const text = "Education";
-
-  function handleSelectEdu(id) {
-    if (selectEdu === id) {
-      setSelectEdu("");
-    } else {
-      setSelectEdu(id);
-    }
-  }
-
-  function addEdu() {
-    const newEdu = {
-      id: crypto.randomUUID(),
-      school: "",
-      course: "",
-      startDate: "",
-      endDate: "",
-      description: "",
-    };
-    setEdu([...edu, newEdu]);
-    setSelectEdu(newEdu.id);
-  }
-
-  function removeEdu(id) {
-    setEdu(edu.filter((tut) => tut.id !== id));
-  }
-
-  function handleChangeSchool(id, value) {
-    setEdu(edu.map((x) => (x.id !== id ? x : { ...x, school: value })));
-  }
-
-  function handleChangeCourse(id, value) {
-    setEdu(edu.map((x) => (x.id !== id ? x : { ...x, course: value })));
-  }
-
-  function handleChangeStartDate(id, value) {
-    setEdu(edu.map((x) => (x.id !== id ? x : { ...x, startDate: value })));
-  }
-
-  function handleChangeEndDate(id, value) {
-    setEdu(edu.map((x) => (x.id !== id ? x : { ...x, endDate: value })));
-  }
-
-  function handleChangeDescription(id, value) {
-    setEdu(edu.map((x) => (x.id !== id ? x : { ...x, description: value })));
-  }
 
   return (
     <div>
@@ -74,27 +25,11 @@ export function Education({
       {selectMainComponent === text && (
         <div>
           <div>
-            {edu.map((tut) => (
-              <EducationForm
-                school={tut.school}
-                course={tut.course}
-                startDate={tut.startDate}
-                endDate={tut.endDate}
-                description={tut.description}
-                isOpen={tut.id === selectEdu}
-                onSelectEdu={handleSelectEdu}
-                id={tut.id}
-                key={tut.id}
-                removeEdu={removeEdu}
-                onChangeSchool={handleChangeSchool}
-                onChangeCourse={handleChangeCourse}
-                onChangeStartDate={handleChangeStartDate}
-                onChangeEndDate={handleChangeEndDate}
-                onChangeDescription={handleChangeDescription}
-              />
+            {education.map((tut) => (
+              <EducationForm key={tut.id} id={tut.id} />
             ))}
           </div>
-          <div onClick={addEdu}>
+          <div onClick={addEducation}>
             <CircularPlus />
             <span>&nbsp; Add education</span>
           </div>
@@ -104,71 +39,75 @@ export function Education({
   );
 }
 
-function EducationForm({
-  school,
-  course,
-  startDate,
-  endDate,
-  description,
-  isOpen,
-  onSelectEdu,
-  id,
-  removeEdu,
-  onChangeSchool,
-  onChangeCourse,
-  onChangeStartDate,
-  onChangeEndDate,
-  onChangeDescription,
-}) {
+function EducationForm({ id }) {
+  const {
+    education,
+    removeEducation,
+    selectEducation,
+    changeSchool,
+    changeCourse,
+    changeStartDate,
+    changeEndDate,
+    changeDescription,
+  } = useEducation();
+  const tempEdu = education.find((edu) => edu.id === id);
+
+  if (!tempEdu) {
+    return null;
+  }
+
   return (
     <div>
-      <header onClick={() => onSelectEdu(id)}>
-        <span>{`${school || "School"}, ${course || "Course"}`}</span>
+      <header onClick={() => selectEducation(id)}>
+        <span>{`${tempEdu.school || "School"}, ${tempEdu.course || "Course"}`}</span>
         <div>
           <Icon src={togglerDown} size={"smaller"} />
-          <Icon src={deleteIcon} onClick={() => removeEdu(id)} size={"small"} />
+          <Icon
+            src={deleteIcon}
+            onClick={() => removeEducation(id)}
+            size={"small"}
+          />
         </div>
       </header>
-      {isOpen && (
-        // School
+      {tempEdu.selected && (
         <div>
           <Input
             id={id}
             type="text"
             header="School"
-            value={school}
-            onChange={(e) => onChangeSchool(id, e.target.value)}
+            value={tempEdu.school}
+            onChange={(e) => changeSchool(id, e.target.value)}
           />
 
           <Input
             id={id}
             type="text"
             header="Course"
-            value={course}
-            onChange={(e) => onChangeCourse(id, e.target.value)}
+            value={tempEdu.course}
+            onChange={(e) => changeCourse(id, e.target.value)}
           />
 
           <Input
             id={id}
-            type="text"
+            type="date"
             header="Start Date"
-            value={startDate}
-            onChange={(e) => onChangeStartDate(id, e.target.value)}
+            value={tempEdu.startDate}
+            onChange={(e) => changeStartDate(id, e.target.value)}
           />
 
           <Input
             id={id}
-            type="text"
+            type="date"
             header="End Date"
-            value={endDate}
-            onChange={(e) => onChangeEndDate(id, e.target.value)}
+            value={tempEdu.endDate}
+            onChange={(e) => changeEndDate(id, e.target.value)}
           />
 
           <TextArea
             id={id}
             header="Description"
-            value={description}
-            onChange={(e) => onChangeDescription(id, e.target.value)}
+            value={tempEdu.description}
+            onChange={(e) => changeDescription(id, e.target.value)}
           />
         </div>
       )}
