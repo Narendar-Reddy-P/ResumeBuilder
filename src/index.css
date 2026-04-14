@@ -1,3 +1,13 @@
+:root {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: #dde6ed;
+}
+
+body {
+  font-family: Arial, Calibri, sans-serif;
+}
+
 .icon {
   height: 2rem;
   width: 2rem;

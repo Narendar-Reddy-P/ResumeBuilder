@@ -1,0 +1,7 @@
+.a4sheet {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 20mm 15mm;
+  box-sizing: border-box;
+  background: white;
+}

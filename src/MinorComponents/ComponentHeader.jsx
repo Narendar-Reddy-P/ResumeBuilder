@@ -10,7 +10,7 @@ export function ComponentHeader({ mainIcon, text }) {
   return (
     <div onClick={() => toggleComponent(text)} className={styles.header}>
       <Icon src={mainIcon} size={"small"} />
-      <h3>{text}</h3>
+      <h3 className={styles.title}>{text}</h3>
       <div>
         {isOpen ? (
           <Icon src={togglerUp} size={"small"} />

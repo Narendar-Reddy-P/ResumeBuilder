@@ -1,0 +1,47 @@
+.main {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 40vw 45vw 10vw;
+  gap: 2rem;
+  justify-items: center;
+}
+
+.header {
+  height: 100%;
+  width: 100%;
+  color: #526d82;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.1rem;
+  padding-bottom: 1.5rem;
+}
+.p {
+  margin-top: 0;
+}
+.leftSection {
+  width: 100%;
+  display: grid;
+  grid-template: 20vh 80vh / 100%;
+  justify-items: center;
+}
+
+.componentSection {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.previewWrapper {
+  width: calc(794px * 0.6);
+  min-height: calc(1123px * 0.6);
+}
+.a4preview {
+  width: 794px;
+  min-height: 1123px;
+  background: white;
+  transform: scale(0.6);
+  transform-origin: top left;
+}
