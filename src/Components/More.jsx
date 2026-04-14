@@ -2,56 +2,15 @@ import ellipsis from "../assets/images/icons/ellipsis-horizontal.svg";
 import { CircularPlus } from "../Icon";
 import deleteIcon from "../assets/images/icons/delete-icon.svg";
 import togglerDown from "../assets/images/icons/toggler-down.svg";
-import { useState } from "react";
 import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import { useComponent } from "../contexts/TogglerContext";
 import { Icon } from "../MinorComponents/Icon";
 import { Input } from "../MinorComponents/Input";
+import { useMore } from "../contexts/MoreContext";
 
-export function More({ data, setData }) {
-  const [selectedSection, setSelectedSection] = useState(data[0]?.id || "");
+export function More() {
   const { component } = useComponent();
-
-  function handleSelectedSection(id) {
-    if (selectedSection === id) {
-      setSelectedSection("");
-    } else {
-      setSelectedSection(id);
-    }
-  }
-
-  function deleteSection(id) {
-    setData(data.filter((x) => x.id !== id));
-  }
-
-  function addSection() {
-    const newSection = {
-      id: crypto.randomUUID(),
-      name: "",
-      details: [],
-    };
-    setData([...data, newSection]);
-  }
-
-  function handleChangeSectionName(id, value) {
-    setData(data.map((x) => (x.id != id ? x : { ...x, name: value })));
-  }
-
-  function handleChangeSectionItem(sectionId, id, parameter, value) {
-    setData(
-      data.map((x) =>
-        x.id !== sectionId
-          ? x
-          : {
-              ...x,
-              details: x.details.map((y) =>
-                y.id !== id ? y : { ...y, [parameter]: value },
-              ),
-            },
-      ),
-    );
-    console.log(data);
-  }
+  const { addSection, moreData } = useMore();
 
   return (
     <div>
@@ -59,18 +18,8 @@ export function More({ data, setData }) {
       {component === "More" && (
         <div>
           <div>
-            {data.map((section) => (
-              <SectionForm
-                section={section}
-                isOpen={selectedSection === section.id}
-                key={section.id}
-                onSelectedSection={handleSelectedSection}
-                deleteSection={deleteSection}
-                data={data}
-                setData={setData}
-                onChangeSectionName={handleChangeSectionName}
-                onChangeSectionItem={handleChangeSectionItem}
-              />
+            {moreData.map((section) => (
+              <SectionForm key={section.id} id={section.id} section={section} />
             ))}
           </div>
           <div onClick={addSection}>
@@ -83,16 +32,18 @@ export function More({ data, setData }) {
   );
 }
 
-function SectionForm({
-  section,
-  isOpen,
-  onSelectedSection,
-  deleteSection,
-  data,
-  setData,
-  onChangeSectionName,
-  onChangeSectionItem,
-}) {
+function SectionForm({ section, id }) {
+  const {
+    handleSelected,
+    deleteSection,
+    addSection,
+    changeSectionItem,
+    changeSectionName,
+    emptyMore,
+    moreData,
+    selected,
+  } = useMore();
+  let isOpen = selected === section.id;
   function addLink() {
     let tempLink = {
       id: crypto.randomUUID(),
@@ -151,7 +102,7 @@ function SectionForm({
               type="text"
               header="Section Name"
               value={section.name}
-              onChange={(e) => onChangeSectionName(section.id, e.target.value)}
+              onChange={(e) => changeSectionName(section.id, e.target.value)}
             />
             {section.details.length > 0 &&
               section.details.map((item) =>
@@ -161,7 +112,7 @@ function SectionForm({
                     onDelete={handleDelete}
                     id={item.id}
                     value={item.value}
-                    onChangeSectionItem={onChangeSectionItem}
+                    onChangeSectionItem={changeSectionItem}
                     sectionId={section.id}
                   />
                 ) : (
@@ -170,7 +121,7 @@ function SectionForm({
                     onDelete={handleDelete}
                     id={item.id}
                     sectionId={section.id}
-                    onChangeSectionItem={onChangeSectionItem}
+                    onChangeSectionItem={changeSectionItem}
                     linkText={item.linkText}
                     url={item.url}
                   />

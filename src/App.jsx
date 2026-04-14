@@ -33,58 +33,9 @@ import {
   ProjectsContextProvider,
   useProjects,
 } from "./contexts/ProjectsContext";
+import { SkillsContextProvider } from "./contexts/SkillsContext";
+import { MoreContextProvider } from "./contexts/MoreContext";
 // import { useSkills } from "./contexts/SkillsContext";
-
-let tempMore = [
-  {
-    id: crypto.randomUUID(),
-    name: "Certifications",
-    details: [
-      {
-        id: crypto.randomUUID(),
-        type: "section",
-        value: "AWS Certified Cloud Practitioner (2023)",
-      },
-      {
-        id: crypto.randomUUID(),
-        type: "link",
-        linkText: "View Certificate",
-        url: "https://aws.amazon.com/certification/",
-      },
-    ],
-  },
-  {
-    id: crypto.randomUUID(),
-    name: "Languages",
-    details: [
-      {
-        id: crypto.randomUUID(),
-        type: "section",
-        value: "English (Fluent), Hindi (Native)",
-      },
-    ],
-  },
-];
-
-let tempMoreEmpty = [
-  {
-    id: crypto.randomUUID(),
-    name: "",
-    details: [
-      {
-        id: crypto.randomUUID(),
-        type: "",
-        value: "",
-      },
-      {
-        id: crypto.randomUUID(),
-        type: "",
-        linkText: "",
-        url: "",
-      },
-    ],
-  },
-];
 
 const handleDownloadPDF = async () => {
   const viewportWidth = window.innerWidth;
@@ -178,8 +129,6 @@ const handleDownloadPDF = async () => {
 function App() {
   const [preview, setPreview] = useState(false);
 
-  const [more, setMore] = useState(tempMore);
-
   function deleteResume() {
     // deletePersonalInfo();
     // setSummary(profileSummaryEmpty);
@@ -187,7 +136,7 @@ function App() {
     // setXP(workXPsEmpty);
     // setProjects(tempProjectsEmpty);
     // setSkills(skillsListEmpty);
-    setMore(tempMoreEmpty);
+    // setMore(tempMoreEmpty);
   }
 
   function resetResume() {
@@ -197,7 +146,7 @@ function App() {
     // setXP(workXPs);
     // setProjects(tempProjects);
     // setSkills(skillsList);
-    setMore(tempMore);
+    // setMore(tempMore);
   }
   return (
     <TogglerContextProvider>
@@ -205,54 +154,58 @@ function App() {
         <EducationContextProvider>
           <WorkContextProvider>
             <ProjectsContextProvider>
-              <div>
-                <div>
+              <SkillsContextProvider>
+                <MoreContextProvider>
                   <div>
-                    <h2>Curriculum Vitae</h2>
-                    <p>Your perfect CV made fast and effortless.</p>
-                  </div>
-                  <div>
-                    <PersonalInformation />
-                    <ProfileSummary />
-                    <Education />
-                    <WorkExperience />
-                    <Projects />
-                    <Skills />
-                    <More data={more} setData={setMore} />
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <A4Sheet more={more} id={"bigScreen"} />
-                  </div>
-
-                  {preview && (
                     <div>
-                      <A4Sheet more={more} id={"smallScreen"} />
+                      <div>
+                        <h2>Curriculum Vitae</h2>
+                        <p>Your perfect CV made fast and effortless.</p>
+                      </div>
+                      <div>
+                        <PersonalInformation />
+                        <ProfileSummary />
+                        <Education />
+                        <WorkExperience />
+                        <Projects />
+                        <Skills />
+                        <More />
+                      </div>
                     </div>
-                  )}
-                </div>
+                    <div>
+                      <div>
+                        <A4Sheet more={more} id={"bigScreen"} />
+                      </div>
 
-                <div>
-                  <div onClick={() => setPreview(!preview)}>
-                    <div onClick={() => setPreview(!preview)}>
-                      {preview ? <EditIcon /> : <EyeIcon />}
+                      {preview && (
+                        <div>
+                          <A4Sheet more={more} id={"smallScreen"} />
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <div onClick={() => setPreview(!preview)}>
+                        <div onClick={() => setPreview(!preview)}>
+                          {preview ? <EditIcon /> : <EyeIcon />}
+                        </div>
+                      </div>
+                      <div onClick={deleteResume}>
+                        <DeleteIcon />
+                      </div>
+                      <div onClick={resetResume}>
+                        <ResetIcon />
+                      </div>
+                      <div onClick={handleDownloadPDF}>
+                        <DownloadIcon />
+                      </div>
+                      <div>
+                        <PrintIcon />
+                      </div>
                     </div>
                   </div>
-                  <div onClick={deleteResume}>
-                    <DeleteIcon />
-                  </div>
-                  <div onClick={resetResume}>
-                    <ResetIcon />
-                  </div>
-                  <div onClick={handleDownloadPDF}>
-                    <DownloadIcon />
-                  </div>
-                  <div>
-                    <PrintIcon />
-                  </div>
-                </div>
-              </div>
+                </MoreContextProvider>
+              </SkillsContextProvider>
             </ProjectsContextProvider>
           </WorkContextProvider>
         </EducationContextProvider>
