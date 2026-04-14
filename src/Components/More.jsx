@@ -10,7 +10,7 @@ import { useMore } from "../contexts/MoreContext";
 
 export function More() {
   const { component } = useComponent();
-  const { addSection, moreData } = useMore();
+  const { addSection, data } = useMore();
 
   return (
     <div>
@@ -18,7 +18,7 @@ export function More() {
       {component === "More" && (
         <div>
           <div>
-            {moreData.map((section) => (
+            {data.map((section) => (
               <SectionForm key={section.id} id={section.id} section={section} />
             ))}
           </div>
@@ -32,58 +32,18 @@ export function More() {
   );
 }
 
-function SectionForm({ section, id }) {
+function SectionForm({ section }) {
   const {
     handleSelected,
     deleteSection,
-    addSection,
-    changeSectionItem,
     changeSectionName,
-    emptyMore,
-    moreData,
-    selected,
+    addLink,
+    addSectionItem,
   } = useMore();
-  let isOpen = selected === section.id;
-  function addLink() {
-    let tempLink = {
-      id: crypto.randomUUID(),
-      type: "link",
-      linkText: "",
-      url: "",
-    };
-    setData(
-      data.map((x) =>
-        x.id !== section.id ? x : { ...x, details: [...x.details, tempLink] },
-      ),
-    );
-  }
 
-  function addSectionItem() {
-    let tempSectionItem = {
-      id: crypto.randomUUID(),
-      type: "section",
-      value: "",
-    };
-    setData(
-      data.map((x) =>
-        x.id !== section.id
-          ? x
-          : { ...x, details: [...x.details, tempSectionItem] },
-      ),
-    );
-  }
-  function handleDelete(id) {
-    setData(
-      data.map((x) =>
-        x.id !== section.id
-          ? x
-          : { ...x, details: [...x.details.filter((y) => y.id !== id)] },
-      ),
-    );
-  }
   return (
     <div>
-      <header onClick={() => onSelectedSection(section.id)}>
+      <header onClick={() => handleSelected(section.id)}>
         <span>{section.name || "Section"}</span>
         <div>
           <Icon src={togglerDown} size={"small"} />
@@ -94,7 +54,7 @@ function SectionForm({ section, id }) {
           />
         </div>
       </header>
-      {isOpen && (
+      {section.selected && (
         <>
           <div>
             <Input
@@ -109,32 +69,21 @@ function SectionForm({ section, id }) {
                 item.type === "section" ? (
                   <SectionItem
                     key={item.id}
-                    onDelete={handleDelete}
-                    id={item.id}
-                    value={item.value}
-                    onChangeSectionItem={changeSectionItem}
+                    item={item}
                     sectionId={section.id}
                   />
                 ) : (
-                  <Link
-                    key={item.id}
-                    onDelete={handleDelete}
-                    id={item.id}
-                    sectionId={section.id}
-                    onChangeSectionItem={changeSectionItem}
-                    linkText={item.linkText}
-                    url={item.url}
-                  />
+                  <Link key={item.id} item={item} sectionId={section.id} />
                 ),
               )}
           </div>
 
           <div>
-            <div onClick={addLink}>
+            <div onClick={() => addLink(section.id)}>
               <CircularPlus />
               <span> Add Link</span>
             </div>
-            <div onClick={addSectionItem}>
+            <div onClick={addSectionItem(section.id)}>
               <CircularPlus />
               <span> Add Section item</span>
             </div>
@@ -145,37 +94,43 @@ function SectionForm({ section, id }) {
   );
 }
 
-function SectionItem({ id, onDelete, sectionId, onChangeSectionItem, value }) {
+function SectionItem({ item, sectionId }) {
+  const { changeSectionItem, deleteSectionItem } = useMore();
   return (
     <div>
       <input
         className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
-        value={value}
+        value={item.value}
         onChange={(e) =>
-          onChangeSectionItem(sectionId, id, "value", e.target.value)
+          changeSectionItem(item.id, sectionId, "value", e.target.value)
         }
       ></input>
-      <Icon src={deleteIcon} onClick={() => onDelete(id)} size={"small"} />
+      <Icon
+        src={deleteIcon}
+        onClick={() => deleteSectionItem(item.id)}
+        size={"small"}
+      />
     </div>
   );
 }
 
-function Link({ id, onDelete, linkText, url, sectionId, onChangeSectionItem }) {
+function Link({ item, sectionId }) {
+  const { changeSectionItem, deleteSectionItem } = useMore();
   return (
     <div>
       <div>
         <div>
           <input
             placeholder="Link Text"
-            value={linkText}
+            value={item.linkText}
             onChange={(e) =>
-              onChangeSectionItem(sectionId, id, "linkText", e.target.value)
+              changeSectionItem(item.id, sectionId, "linkText", e.target.value)
             }
           ></input>
           <Icon
             src={deleteIcon}
             onClick={() => {
-              onDelete(id);
+              deleteSectionItem(sectionId, item.id);
             }}
             size={"small"}
           />
@@ -183,9 +138,9 @@ function Link({ id, onDelete, linkText, url, sectionId, onChangeSectionItem }) {
         <div>
           <input
             placeholder="URL"
-            value={url}
+            value={item.url}
             onChange={(e) =>
-              onChangeSectionItem(sectionId, id, "url", e.target.value)
+              changeSectionItem(item.id, sectionId, "url", e.target.value)
             }
           ></input>
         </div>

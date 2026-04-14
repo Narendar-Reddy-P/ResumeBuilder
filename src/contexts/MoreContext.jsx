@@ -39,6 +39,7 @@ let emptyMore = [
   {
     id: crypto.randomUUID(),
     name: "",
+    selected: false,
     details: [
       {
         id: crypto.randomUUID(),
@@ -60,7 +61,7 @@ function reducer(state, action) {
       return state.map((section) =>
         section.id !== action.id
           ? { ...section, selected: false }
-          : { ...section, selected: true },
+          : { ...section, selected: !section.selected },
       );
     case "DeleteSection":
       return state.filter((section) => section.id !== action.id);

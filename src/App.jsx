@@ -34,7 +34,7 @@ import {
   useProjects,
 } from "./contexts/ProjectsContext";
 import { SkillsContextProvider } from "./contexts/SkillsContext";
-import { MoreContextProvider } from "./contexts/MoreContext";
+import { MoreContextProvider, useMore } from "./contexts/MoreContext";
 // import { useSkills } from "./contexts/SkillsContext";
 
 const handleDownloadPDF = async () => {
@@ -174,12 +174,12 @@ function App() {
                     </div>
                     <div>
                       <div>
-                        <A4Sheet more={more} id={"bigScreen"} />
+                        <A4Sheet />
                       </div>
 
                       {preview && (
                         <div>
-                          <A4Sheet more={more} id={"smallScreen"} />
+                          <A4Sheet id={"smallScreen"} />
                         </div>
                       )}
                     </div>
@@ -213,13 +213,14 @@ function App() {
     </TogglerContextProvider>
   );
 }
-function A4Sheet({ more, id }) {
+function A4Sheet({ id }) {
   const { firstName, lastName, phone, email, address, summary } =
     usePersonalInfo();
   const { education } = useEducation();
   const { works } = useWork();
   const { projects } = useProjects();
   // const { skills } = useSkills();
+  const { data } = useMore();
 
   return (
     <div id={id}>
@@ -266,7 +267,7 @@ function A4Sheet({ more, id }) {
           <br></br>
         </div>
       ))}
-      {more.map((x) => (
+      {data.map((x) => (
         <div key={x.id}>
           <h3>{x.name}</h3>
           <hr></hr>
