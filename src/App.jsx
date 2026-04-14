@@ -27,28 +27,15 @@ import {
   EducationContextProvider,
   useEducation,
 } from "./contexts/educationContext";
+import { useWork, WorkContextProvider } from "./contexts/workContext";
 
-let workXPs = [
-  {
-    id: crypto.randomUUID(),
-    position: "Frontend Developer",
-    company: "Infosys",
-    startDate: "Jul 2022",
-    endDate: "Present",
-    description:
-      "Developed and maintained scalable React applications. Improved application load time by 30% through code-splitting and lazy loading. Collaborated with backend teams to integrate RESTful APIs.",
-  },
-  {
-    id: crypto.randomUUID(),
-    position: "Junior Web Developer",
-    company: "Wipro",
-    startDate: "Jan 2021",
-    endDate: "Jun 2022",
-    description:
-      "Built responsive UI components using HTML, CSS, and JavaScript. Fixed cross-browser compatibility issues and optimized website accessibility.",
-  },
+const skillsList = [
+  { id: crypto.randomUUID(), name: "JavaScript" },
+  { id: crypto.randomUUID(), name: "React" },
+  { id: crypto.randomUUID(), name: "Node.js" },
+  { id: crypto.randomUUID(), name: "MongoDB" },
+  { id: crypto.randomUUID(), name: "Tailwind CSS" },
 ];
-
 let tempProjects = [
   {
     id: crypto.randomUUID(),
@@ -69,15 +56,16 @@ let tempProjects = [
       "Built a real-time task management application with drag-and-drop functionality and Firebase authentication.",
   },
 ];
-
-const skillsList = [
-  { id: crypto.randomUUID(), name: "JavaScript" },
-  { id: crypto.randomUUID(), name: "React" },
-  { id: crypto.randomUUID(), name: "Node.js" },
-  { id: crypto.randomUUID(), name: "MongoDB" },
-  { id: crypto.randomUUID(), name: "Tailwind CSS" },
+let tempProjectsEmpty = [
+  {
+    id: crypto.randomUUID(),
+    title: "",
+    techStack: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+  },
 ];
-
 let tempMore = [
   {
     id: crypto.randomUUID(),
@@ -106,28 +94,6 @@ let tempMore = [
         value: "English (Fluent), Hindi (Native)",
       },
     ],
-  },
-];
-
-let workXPsEmpty = [
-  {
-    id: crypto.randomUUID(),
-    position: "",
-    company: "",
-    startDate: "",
-    endDate: "",
-    description: "",
-  },
-];
-
-let tempProjectsEmpty = [
-  {
-    id: crypto.randomUUID(),
-    title: "",
-    techStack: "",
-    startDate: "",
-    endDate: "",
-    description: "",
   },
 ];
 
@@ -251,8 +217,6 @@ function App() {
   const [selectMainComponent, setSelectMainComponent] = useState("");
   const [preview, setPreview] = useState(false);
 
-  const [XP, setXP] = useState(workXPs);
-
   const [projects, setProjects] = useState(tempProjects);
 
   const [skills, setSkills] = useState(skillsList);
@@ -271,7 +235,7 @@ function App() {
     // deletePersonalInfo();
     // setSummary(profileSummaryEmpty);
     // setEdu(coursesEmpty);
-    setXP(workXPsEmpty);
+    // setXP(workXPsEmpty);
     setProjects(tempProjectsEmpty);
     setSkills(skillsListEmpty);
     setMore(tempMoreEmpty);
@@ -281,7 +245,7 @@ function App() {
     // resetPersonalInfo();
     // setSummary(profileSummary);
     // setEdu(courses);
-    setXP(workXPs);
+    // setXP(workXPs);
     setProjects(tempProjects);
     setSkills(skillsList);
     setMore(tempMore);
@@ -289,103 +253,102 @@ function App() {
   return (
     <PersonalInfoProvider>
       <EducationContextProvider>
-        <div>
+        <WorkContextProvider>
           <div>
             <div>
-              <h2>Curriculum Vitae</h2>
-              <p>Your perfect CV made fast and effortless.</p>
+              <div>
+                <h2>Curriculum Vitae</h2>
+                <p>Your perfect CV made fast and effortless.</p>
+              </div>
+              <div>
+                <PersonalInformation
+                  onSelectMainComponent={handleSelectMainComponent}
+                  selectMainComponent={selectMainComponent}
+                />
+                <ProfileSummary
+                  onSelectMainComponent={handleSelectMainComponent}
+                  selectMainComponent={selectMainComponent}
+                />
+                <Education
+                  onSelectMainComponent={handleSelectMainComponent}
+                  selectMainComponent={selectMainComponent}
+                />
+                <WorkExperience
+                  onSelectMainComponent={handleSelectMainComponent}
+                  selectMainComponent={selectMainComponent}
+                />
+                <Projects
+                  onSelectMainComponent={handleSelectMainComponent}
+                  selectMainComponent={selectMainComponent}
+                  projects={projects}
+                  setProjects={setProjects}
+                />
+                <Skills
+                  onSelectMainComponent={handleSelectMainComponent}
+                  selectMainComponent={selectMainComponent}
+                  skills={skills}
+                  setSkills={setSkills}
+                />
+                <More
+                  onSelectMainComponent={handleSelectMainComponent}
+                  selectMainComponent={selectMainComponent}
+                  data={more}
+                  setData={setMore}
+                />
+              </div>
             </div>
             <div>
-              <PersonalInformation
-                onSelectMainComponent={handleSelectMainComponent}
-                selectMainComponent={selectMainComponent}
-              />
-              <ProfileSummary
-                onSelectMainComponent={handleSelectMainComponent}
-                selectMainComponent={selectMainComponent}
-              />
-              <Education
-                onSelectMainComponent={handleSelectMainComponent}
-                selectMainComponent={selectMainComponent}
-              />
-              <WorkExperience
-                onSelectMainComponent={handleSelectMainComponent}
-                selectMainComponent={selectMainComponent}
-                XP={XP}
-                setXP={setXP}
-              />
-              <Projects
-                onSelectMainComponent={handleSelectMainComponent}
-                selectMainComponent={selectMainComponent}
-                projects={projects}
-                setProjects={setProjects}
-              />
-              <Skills
-                onSelectMainComponent={handleSelectMainComponent}
-                selectMainComponent={selectMainComponent}
-                skills={skills}
-                setSkills={setSkills}
-              />
-              <More
-                onSelectMainComponent={handleSelectMainComponent}
-                selectMainComponent={selectMainComponent}
-                data={more}
-                setData={setMore}
-              />
-            </div>
-          </div>
-          <div>
-            <div>
-              <A4Sheet
-                XP={XP}
-                projects={projects}
-                skills={skills}
-                more={more}
-                id={"bigScreen"}
-              />
-            </div>
-
-            {preview && (
               <div>
                 <A4Sheet
-                  XP={XP}
                   projects={projects}
                   skills={skills}
                   more={more}
-                  id={"smallScreen"}
+                  id={"bigScreen"}
                 />
               </div>
-            )}
-          </div>
 
-          <div>
-            <div onClick={() => setPreview(!preview)}>
+              {preview && (
+                <div>
+                  <A4Sheet
+                    projects={projects}
+                    skills={skills}
+                    more={more}
+                    id={"smallScreen"}
+                  />
+                </div>
+              )}
+            </div>
+
+            <div>
               <div onClick={() => setPreview(!preview)}>
-                {preview ? <EditIcon /> : <EyeIcon />}
+                <div onClick={() => setPreview(!preview)}>
+                  {preview ? <EditIcon /> : <EyeIcon />}
+                </div>
+              </div>
+              <div onClick={deleteResume}>
+                <DeleteIcon />
+              </div>
+              <div onClick={resetResume}>
+                <ResetIcon />
+              </div>
+              <div onClick={handleDownloadPDF}>
+                <DownloadIcon />
+              </div>
+              <div>
+                <PrintIcon />
               </div>
             </div>
-            <div onClick={deleteResume}>
-              <DeleteIcon />
-            </div>
-            <div onClick={resetResume}>
-              <ResetIcon />
-            </div>
-            <div onClick={handleDownloadPDF}>
-              <DownloadIcon />
-            </div>
-            <div>
-              <PrintIcon />
-            </div>
           </div>
-        </div>
+        </WorkContextProvider>
       </EducationContextProvider>
     </PersonalInfoProvider>
   );
 }
-function A4Sheet({ XP, projects, skills, more, id }) {
+function A4Sheet({ projects, skills, more, id }) {
   const { firstName, lastName, phone, email, address, summary } =
     usePersonalInfo();
   const { education } = useEducation();
+  const { works } = useWork();
   return (
     <div id={id}>
       <h1>{`${firstName} ${lastName}`}</h1>
@@ -409,7 +372,7 @@ function A4Sheet({ XP, projects, skills, more, id }) {
       ))}
       <h3>Work Experience</h3>
       <hr></hr>
-      {XP.map((x) => (
+      {works.map((x) => (
         <div key={x.id}>
           <div>
             <span>{`${x.position} | ${x.company}`}</span>

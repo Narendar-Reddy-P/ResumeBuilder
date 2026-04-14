@@ -27,6 +27,7 @@ export function TextArea({ id, header, value = "", onChange = {}, rows = 5 }) {
     </div>
   );
 }
+
 export function MainComponentHeaderToggler({
   mainIcon,
   text,
