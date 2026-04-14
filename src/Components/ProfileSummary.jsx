@@ -1,6 +1,6 @@
 import summaryIcon from "../assets/images/icons/user-summary.svg";
 import { usePersonalInfo } from "../contexts/personalContext";
-import { TextArea } from "../Utility";
+import { TextArea } from "../MinorComponents/TextArea";
 import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import { useComponent } from "../contexts/TogglerContext";
 

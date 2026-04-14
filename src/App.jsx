@@ -29,6 +29,10 @@ import {
 } from "./contexts/educationContext";
 import { useWork, WorkContextProvider } from "./contexts/workContext";
 import { TogglerContextProvider } from "./contexts/TogglerContext";
+import {
+  ProjectsContextProvider,
+  useProjects,
+} from "./contexts/ProjectsContext";
 
 const skillsList = [
   { id: crypto.randomUUID(), name: "JavaScript" },
@@ -37,36 +41,7 @@ const skillsList = [
   { id: crypto.randomUUID(), name: "MongoDB" },
   { id: crypto.randomUUID(), name: "Tailwind CSS" },
 ];
-let tempProjects = [
-  {
-    id: crypto.randomUUID(),
-    title: "E-Commerce Platform",
-    techStack: "React, Node.js, Express, MongoDB",
-    startDate: "Mar 2023",
-    endDate: "May 2023",
-    description:
-      "Designed and developed a full-stack e-commerce platform with authentication, product filtering, cart management, and Stripe payment integration.",
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Task Management App",
-    techStack: "React, Firebase",
-    startDate: "Nov 2022",
-    endDate: "Dec 2022",
-    description:
-      "Built a real-time task management application with drag-and-drop functionality and Firebase authentication.",
-  },
-];
-let tempProjectsEmpty = [
-  {
-    id: crypto.randomUUID(),
-    title: "",
-    techStack: "",
-    startDate: "",
-    endDate: "",
-    description: "",
-  },
-];
+
 let tempMore = [
   {
     id: crypto.randomUUID(),
@@ -217,8 +192,6 @@ const handleDownloadPDF = async () => {
 function App() {
   const [preview, setPreview] = useState(false);
 
-  const [projects, setProjects] = useState(tempProjects);
-
   const [skills, setSkills] = useState(skillsList);
 
   const [more, setMore] = useState(tempMore);
@@ -228,7 +201,7 @@ function App() {
     // setSummary(profileSummaryEmpty);
     // setEdu(coursesEmpty);
     // setXP(workXPsEmpty);
-    setProjects(tempProjectsEmpty);
+    // setProjects(tempProjectsEmpty);
     setSkills(skillsListEmpty);
     setMore(tempMoreEmpty);
   }
@@ -238,7 +211,7 @@ function App() {
     // setSummary(profileSummary);
     // setEdu(courses);
     // setXP(workXPs);
-    setProjects(tempProjects);
+    // setProjects(tempProjects);
     setSkills(skillsList);
     setMore(tempMore);
   }
@@ -247,75 +220,68 @@ function App() {
       <PersonalInfoProvider>
         <EducationContextProvider>
           <WorkContextProvider>
-            <div>
+            <ProjectsContextProvider>
               <div>
                 <div>
-                  <h2>Curriculum Vitae</h2>
-                  <p>Your perfect CV made fast and effortless.</p>
-                </div>
-                <div>
-                  <PersonalInformation />
-                  <ProfileSummary />
-                  <Education />
-                  <WorkExperience />
-                  <Projects projects={projects} setProjects={setProjects} />
-                  <Skills skills={skills} setSkills={setSkills} />
-                  <More data={more} setData={setMore} />
-                </div>
-              </div>
-              <div>
-                <div>
-                  <A4Sheet
-                    projects={projects}
-                    skills={skills}
-                    more={more}
-                    id={"bigScreen"}
-                  />
-                </div>
-
-                {preview && (
                   <div>
-                    <A4Sheet
-                      projects={projects}
-                      skills={skills}
-                      more={more}
-                      id={"smallScreen"}
-                    />
+                    <h2>Curriculum Vitae</h2>
+                    <p>Your perfect CV made fast and effortless.</p>
                   </div>
-                )}
-              </div>
-
-              <div>
-                <div onClick={() => setPreview(!preview)}>
-                  <div onClick={() => setPreview(!preview)}>
-                    {preview ? <EditIcon /> : <EyeIcon />}
+                  <div>
+                    <PersonalInformation />
+                    <ProfileSummary />
+                    <Education />
+                    <WorkExperience />
+                    <Projects />
+                    <Skills skills={skills} setSkills={setSkills} />
+                    <More data={more} setData={setMore} />
                   </div>
-                </div>
-                <div onClick={deleteResume}>
-                  <DeleteIcon />
-                </div>
-                <div onClick={resetResume}>
-                  <ResetIcon />
-                </div>
-                <div onClick={handleDownloadPDF}>
-                  <DownloadIcon />
                 </div>
                 <div>
-                  <PrintIcon />
+                  <div>
+                    <A4Sheet skills={skills} more={more} id={"bigScreen"} />
+                  </div>
+
+                  {preview && (
+                    <div>
+                      <A4Sheet skills={skills} more={more} id={"smallScreen"} />
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <div onClick={() => setPreview(!preview)}>
+                    <div onClick={() => setPreview(!preview)}>
+                      {preview ? <EditIcon /> : <EyeIcon />}
+                    </div>
+                  </div>
+                  <div onClick={deleteResume}>
+                    <DeleteIcon />
+                  </div>
+                  <div onClick={resetResume}>
+                    <ResetIcon />
+                  </div>
+                  <div onClick={handleDownloadPDF}>
+                    <DownloadIcon />
+                  </div>
+                  <div>
+                    <PrintIcon />
+                  </div>
                 </div>
               </div>
-            </div>
+            </ProjectsContextProvider>
           </WorkContextProvider>
         </EducationContextProvider>
       </PersonalInfoProvider>
     </TogglerContextProvider>
   );
 }
-function A4Sheet({ projects, skills, more, id }) {
+function A4Sheet({ skills, more, id }) {
   const { firstName, lastName, phone, email, address, summary } =
     usePersonalInfo();
   const { education } = useEducation();
   const { works } = useWork();
+  const { projects } = useProjects();
   return (
     <div id={id}>
       <h1>{`${firstName} ${lastName}`}</h1>

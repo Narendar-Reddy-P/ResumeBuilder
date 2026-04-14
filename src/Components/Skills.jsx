@@ -3,6 +3,8 @@ import deleteIcon from "../assets/images/icons/delete-icon.svg";
 import { CircularPlus } from "../Icon";
 import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import { useComponent } from "../contexts/TogglerContext";
+import { Icon } from "../MinorComponents/Icon";
+import { Input } from "../MinorComponents/Input";
 
 export function Skills({ skills, setSkills }) {
   const { component } = useComponent();
@@ -48,12 +50,7 @@ function Skill({ name, removeSkill, id, onChangeSkill }) {
   return (
     <div>
       <input value={name} onChange={onChangeSkill}></input>
-      <img
-        src={deleteIcon}
-        onClick={() => {
-          removeSkill(id);
-        }}
-      />
+      <Icon src={deleteIcon} onClick={() => removeSkill(id)} size={"small"} />
     </div>
   );
 }

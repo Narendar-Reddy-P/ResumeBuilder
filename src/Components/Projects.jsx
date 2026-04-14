@@ -1,4 +1,3 @@
-import { useState } from "react";
 import togglerDown from "../assets/images/icons/toggler-down.svg";
 import deleteIcon from "../assets/images/icons/delete-icon.svg";
 
@@ -7,65 +6,14 @@ import projectIcon from "../assets/images/icons/projects-icon.svg";
 import { CircularPlus } from "../Icon";
 import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import { useComponent } from "../contexts/TogglerContext";
+import { Input } from "../MinorComponents/Input";
+import { TextArea } from "../MinorComponents/TextArea";
+import { Icon } from "../MinorComponents/Icon";
+import { useProjects } from "../contexts/ProjectsContext";
 
-export function Projects({ projects, setProjects }) {
-  const [selectProject, setSelectProject] = useState(projects[0]?.id || "");
+export function Projects() {
   const { component } = useComponent();
-
-  function handleSelectProject(id) {
-    if (selectProject === id) {
-      setSelectProject("");
-    } else {
-      setSelectProject(id);
-    }
-  }
-
-  function addProject() {
-    const newProject = {
-      id: crypto.randomUUID(),
-      title: "",
-      techStack: "",
-      startDate: "",
-      endDate: "",
-      description: "",
-    };
-    setProjects([...projects, newProject]);
-    setSelectProject(newProject.id);
-  }
-
-  function removeProject(id) {
-    setProjects(projects.filter((project) => project.id !== id));
-  }
-
-  function handleChangeTitle(id, value) {
-    setProjects(
-      projects.map((x) => (x.id !== id ? x : { ...x, title: value })),
-    );
-  }
-
-  function handleChangeTechStack(id, value) {
-    setProjects(
-      projects.map((x) => (x.id !== id ? x : { ...x, techStack: value })),
-    );
-  }
-
-  function handleChangeStartDate(id, value) {
-    setProjects(
-      projects.map((x) => (x.id !== id ? x : { ...x, startDate: value })),
-    );
-  }
-
-  function handleChangeEndDate(id, value) {
-    setProjects(
-      projects.map((x) => (x.id !== id ? x : { ...x, endDate: value })),
-    );
-  }
-
-  function handleChangeDescription(id, value) {
-    setProjects(
-      projects.map((x) => (x.id !== id ? x : { ...x, description: value })),
-    );
-  }
+  const { projects, addProject } = useProjects();
 
   return (
     <div>
@@ -74,23 +22,7 @@ export function Projects({ projects, setProjects }) {
         <div>
           <div>
             {projects.map((project) => (
-              <ProjectForm
-                title={project.title}
-                techStack={project.techStack}
-                startDate={project.startDate}
-                endDate={project.endDate}
-                description={project.description}
-                isOpen={project.id === selectProject}
-                onSelectProject={handleSelectProject}
-                id={project.id}
-                key={project.id}
-                removeProject={removeProject}
-                onChangeTitle={handleChangeTitle}
-                onChangeTechStack={handleChangeTechStack}
-                onChangeStartDate={handleChangeStartDate}
-                onChangeEndDate={handleChangeEndDate}
-                onChangeDescription={handleChangeDescription}
-              />
+              <ProjectForm id={project.id} key={project.id} />
             ))}
           </div>
           <div onClick={addProject}>
@@ -103,87 +35,74 @@ export function Projects({ projects, setProjects }) {
   );
 }
 
-function ProjectForm({
-  title,
-  techStack,
-  startDate,
-  endDate,
-  description,
-  isOpen,
-  onSelectProject,
-  id,
-  removeProject,
-  onChangeTitle,
-  onChangeTechStack,
-  onChangeStartDate,
-  onChangeEndDate,
-  onChangeDescription,
-}) {
+function ProjectForm({ id }) {
+  const {
+    projects,
+    removeProject,
+    selectProject,
+    changeTitle,
+    changeTechStack,
+    changeStartDate,
+    changeEndDate,
+    changeDescription,
+  } = useProjects();
+
+  const { title, techStack, startDate, endDate, description, selected } =
+    projects.find((project) => project.id === id);
+
   return (
     <div>
-      <header onClick={() => onSelectProject(id)}>
+      <header onClick={() => selectProject(id)}>
         <span>{`${title || "Project Title"}, ${techStack || "Tech Stack"}`}</span>
         <div>
-          <img src={togglerDown} />
-          <img src={deleteIcon} onClick={() => removeProject(id)} />
+          <Icon src={togglerDown} size={"smaller"} />
+          <Icon
+            src={deleteIcon}
+            onClick={() => removeProject(id)}
+            size={"small"}
+          />
         </div>
       </header>
-      {isOpen && (
+      {selected && (
         <div>
-          <div>
-            <label htmlFor={id}>{"Title"}</label>
-            <br />
-            <input
-              type="text"
-              id={id}
-              value={title}
-              onChange={(e) => onChangeTitle(id, e.target.value)}
-            />
-          </div>
+          <Input
+            id={id}
+            type="text"
+            header="Title"
+            value={title}
+            onChange={(e) => changeTitle(id, e.target.value)}
+          />
 
-          <div>
-            <label htmlFor={id}>{"Tech Stack"}</label>
-            <br />
-            <input
-              type="text"
-              id={id}
-              value={techStack}
-              onChange={(e) => onChangeTechStack(id, e.target.value)}
-            />
-          </div>
+          <Input
+            id={id}
+            type="text"
+            header="Tech Stack"
+            value={techStack}
+            onChange={(e) => changeTechStack(id, e.target.value)}
+          />
 
-          <div>
-            <label htmlFor={id}>{"Start Date"}</label>
-            <br />
-            <input
-              type="text"
-              id={id}
-              value={startDate}
-              onChange={(e) => onChangeStartDate(id, e.target.value)}
-            />
-          </div>
+          <Input
+            id={id}
+            type="text"
+            header="Start Date"
+            value={startDate}
+            onChange={(e) => changeStartDate(id, e.target.value)}
+          />
 
-          <div>
-            <label htmlFor={id}>{"End Date"}</label>
-            <br />
-            <input
-              type="text"
-              id={id}
-              value={endDate}
-              onChange={(e) => onChangeEndDate(id, e.target.value)}
-            />
-          </div>
+          <Input
+            id={id}
+            type="text"
+            header="End Date"
+            value={endDate}
+            onChange={(e) => changeEndDate(id, e.target.value)}
+          />
 
-          <div>
-            <label htmlFor={id} rows={5}>
-              {"Description"}
-            </label>
-            <textarea
-              id={id}
-              value={description}
-              onChange={(e) => onChangeDescription(id, e.target.value)}
-            />
-          </div>
+          <TextArea
+            id={id}
+            header="Description"
+            value={description}
+            onChange={(e) => changeDescription(id, e.target.value)}
+          />
         </div>
       )}
     </div>

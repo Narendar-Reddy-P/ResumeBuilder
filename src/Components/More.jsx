@@ -1,4 +1,3 @@
-import { Input } from "../Utility";
 import ellipsis from "../assets/images/icons/ellipsis-horizontal.svg";
 import { CircularPlus } from "../Icon";
 import deleteIcon from "../assets/images/icons/delete-icon.svg";
@@ -6,6 +5,8 @@ import togglerDown from "../assets/images/icons/toggler-down.svg";
 import { useState } from "react";
 import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import { useComponent } from "../contexts/TogglerContext";
+import { Icon } from "../MinorComponents/Icon";
+import { Input } from "../MinorComponents/Input";
 
 export function More({ data, setData }) {
   const [selectedSection, setSelectedSection] = useState(data[0]?.id || "");
@@ -134,28 +135,24 @@ function SectionForm({
       <header onClick={() => onSelectedSection(section.id)}>
         <span>{section.name || "Section"}</span>
         <div>
-          <img src={togglerDown} />
-          <img
+          <Icon src={togglerDown} size={"small"} />
+          <Icon
             src={deleteIcon}
             onClick={(e) => deleteSection(section.id, e.target.value)}
+            size={"small"}
           />
         </div>
       </header>
       {isOpen && (
         <>
           <div>
-            <div>
-              <label htmlFor="sectionName">Section Name</label>
-              <br />
-              <input
-                type="text"
-                id="sectionName"
-                value={section.name}
-                onChange={(e) =>
-                  onChangeSectionName(section.id, e.target.value)
-                }
-              />
-            </div>
+            <Input
+              id="sectionName"
+              type="text"
+              header="Section Name"
+              value={section.name}
+              onChange={(e) => onChangeSectionName(section.id, e.target.value)}
+            />
             {section.details.length > 0 &&
               section.details.map((item) =>
                 item.type === "section" ? (
@@ -201,12 +198,13 @@ function SectionItem({ id, onDelete, sectionId, onChangeSectionItem, value }) {
   return (
     <div>
       <input
+        className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
         value={value}
         onChange={(e) =>
           onChangeSectionItem(sectionId, id, "value", e.target.value)
         }
       ></input>
-      <img src={deleteIcon} onClick={() => onDelete(id)} />
+      <Icon src={deleteIcon} onClick={() => onDelete(id)} size={"small"} />
     </div>
   );
 }
@@ -223,11 +221,12 @@ function Link({ id, onDelete, linkText, url, sectionId, onChangeSectionItem }) {
               onChangeSectionItem(sectionId, id, "linkText", e.target.value)
             }
           ></input>
-          <img
+          <Icon
             src={deleteIcon}
             onClick={() => {
               onDelete(id);
             }}
+            size={"small"}
           />
         </div>
         <div>
