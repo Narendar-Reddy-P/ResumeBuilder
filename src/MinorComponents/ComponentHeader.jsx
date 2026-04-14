@@ -8,15 +8,20 @@ export function ComponentHeader({ mainIcon, text }) {
   const { component, toggleComponent } = useComponent();
   let isOpen = component === text;
   return (
-    <div onClick={() => toggleComponent(text)} className={styles.header}>
-      <Icon src={mainIcon} size={"small"} />
-      <h3 className={styles.title}>{text}</h3>
-      <div>
-        {isOpen ? (
-          <Icon src={togglerUp} size={"small"} />
-        ) : (
-          <Icon src={togglerDown} size={"small"} />
-        )}
+    <div className={styles.container1}>
+      <div
+        onClick={() => toggleComponent(text)}
+        className={`${styles.container2} ${isOpen && styles.selected}`}
+      >
+        <Icon src={mainIcon} size={"small"} />
+        <h3 className={styles.title}>{text}</h3>
+        <div>
+          {isOpen ? (
+            <Icon src={togglerUp} size={"small"} />
+          ) : (
+            <Icon src={togglerDown} size={"small"} />
+          )}
+        </div>
       </div>
     </div>
   );

@@ -95,6 +95,8 @@ function reducer(state, action) {
       );
     case "EmptyProjects":
       return [...tempProjectsEmpty];
+    case "ResetProjects":
+      return [...initialValue];
     default:
   }
 }
@@ -128,6 +130,9 @@ function ProjectsContextProvider({ children }) {
   function emptyProjects() {
     dispatcher({ type: "EmptyProjects" });
   }
+  function resetProjects() {
+    dispatcher({ type: "ResetProjects" });
+  }
   return (
     <ProjectsContext.Provider
       value={{
@@ -141,6 +146,7 @@ function ProjectsContextProvider({ children }) {
         changeEndDate,
         changeDescription,
         emptyProjects,
+        resetProjects,
       }}
     >
       {children}

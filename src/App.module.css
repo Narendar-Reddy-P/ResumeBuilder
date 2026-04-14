@@ -36,12 +36,14 @@
 
 .previewWrapper {
   width: calc(794px * 0.6);
-  min-height: calc(1123px * 0.6);
+  height: calc(1123px * 0.6);
 }
 .a4preview {
   width: 794px;
-  min-height: 1123px;
+  height: 1123px;
   background: white;
   transform: scale(0.6);
   transform-origin: top left;
+  overflow: scroll;
+  scrollbar-width: none;
 }

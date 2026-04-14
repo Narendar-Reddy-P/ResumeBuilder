@@ -1,12 +1,27 @@
-.header {
+.container1 {
+  background-color: white;
+  border: 2px solid #9db2bf;
+  border-radius: 0.8rem;
+  padding: 0.3rem;
+  box-shadow: 0 8px 6px -6px black;
+}
+
+.container2 {
   display: flex;
-  gap: 3rem;
+  font-size: 0.9rem;
+  gap: 1.5rem;
   align-items: center;
-  background-color: #9db2bf;
+  padding: 0 0.8rem;
+  /* background-color: #9db2bf; */
   color: #27374d;
-  padding: 0.1rem 1.5rem;
+  /* border: 2px solid #27374d; */
 }
 
 .title {
   margin-right: auto;
+}
+
+.container2.selected {
+  background-color: #dde6ed;
+  border-radius: 0.5rem;
 }

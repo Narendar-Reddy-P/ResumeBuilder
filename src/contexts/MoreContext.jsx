@@ -35,7 +35,7 @@ let initialMore = [
   },
 ];
 
-let emptyMore = [
+let emptyValue = [
   {
     id: crypto.randomUUID(),
     name: "",
@@ -140,7 +140,12 @@ function reducer(state, action) {
               details: section.details.filter((y) => y.id !== action.itemId),
             },
       );
+    case "ResetMore":
+      return [...initialMore];
+    case "EmptyMore":
+      return [...emptyValue];
     default:
+      throw new Error("Unknown action type");
   }
 }
 function MoreContextProvider({ children }) {
@@ -169,6 +174,12 @@ function MoreContextProvider({ children }) {
   function deleteSectionItem(sectionId, itemId) {
     dispatcher({ type: "DeleteSectionItem", sectionId, itemId });
   }
+  function resetMore() {
+    dispatcher({ type: "ResetMore" });
+  }
+  function emptyMore() {
+    dispatcher({ type: "EmptyMore" });
+  }
   return (
     <MoreContext.Provider
       value={{
@@ -177,11 +188,12 @@ function MoreContextProvider({ children }) {
         addSection,
         changeSectionItem,
         changeSectionName,
-        emptyMore,
         data,
         addLink,
         addSectionItem,
         deleteSectionItem,
+        resetMore,
+        emptyMore,
       }}
     >
       {children}

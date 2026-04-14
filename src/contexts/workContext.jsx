@@ -25,6 +25,18 @@ let initialValue = [
   },
 ];
 
+let emptyValue = [
+  {
+    id: crypto.randomUUID(),
+    position: "",
+    company: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+    selected: true,
+  },
+];
+
 function reducer(state, action) {
   switch (action.type) {
     case "AddWork":
@@ -75,6 +87,10 @@ function reducer(state, action) {
           ? work
           : { ...work, description: action.description },
       );
+    case "EmptyWork":
+      return [...emptyValue];
+    case "ResetWork":
+      return [...initialValue];
     default:
       console.log("hehe");
   }
@@ -105,6 +121,12 @@ function WorkContextProvider({ children }) {
   function changeDescription(id, description) {
     dispatcher({ type: "ChangeDescription", id, description });
   }
+  function emptyWork() {
+    dispatcher({ type: "EmptyWork" });
+  }
+  function resetWork() {
+    dispatcher({ type: "ResetWork" });
+  }
   return (
     <WorkContext.Provider
       value={{
@@ -117,6 +139,8 @@ function WorkContextProvider({ children }) {
         changeStartDate,
         changeEndDate,
         changeDescription,
+        emptyWork,
+        resetWork,
       }}
     >
       {children}

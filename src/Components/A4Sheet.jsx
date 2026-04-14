@@ -6,9 +6,10 @@ import { useMore } from "../contexts/MoreContext";
 import { useSkills } from "../contexts/SkillsContext";
 import styles from "./A4Sheet.module.css";
 
-export function A4Sheet({ id }) {
+export function A4Sheet({ id, ref }) {
   const { firstName, lastName, phone, email, address, summary } =
     usePersonalInfo();
+
   const { education } = useEducation();
   const { works } = useWork();
   const { projects } = useProjects();
@@ -16,7 +17,7 @@ export function A4Sheet({ id }) {
   const { data } = useMore();
 
   return (
-    <div id={id} className={styles.a4sheet}>
+    <div id={id} className={styles.a4sheet} ref={ref}>
       <h1>{`${firstName} ${lastName}`}</h1>
       <p>{`${email} | ${phone} | ${address}`}</p>
       <br></br>

@@ -29,11 +29,14 @@ function SkillsContextProvider({ children }) {
     setSkills(skills.map((x) => (x.id !== id ? x : { ...x, name: value })));
   }
   function emptySkills() {
-    setSkills(...skillsListEmpty);
+    setSkills(skillsListEmpty);
+  }
+  function resetSkills() {
+    setSkills(skillsList);
   }
   return (
     <SkillsContext.Provider
-      value={{ skills, addSkill, removeSkill, changeSkill, emptySkills }}
+      value={{ skills, addSkill, removeSkill, changeSkill, emptySkills, resetSkills }}
     >
       {children}
     </SkillsContext.Provider>

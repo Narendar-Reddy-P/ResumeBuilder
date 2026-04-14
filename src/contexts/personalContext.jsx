@@ -15,7 +15,7 @@ const initialValue = {
 };
 const emptyInfo = {
   firstName: "",
-  lastName: "Mehta",
+  lastName: "",
   jobTitle: "",
   phone: "",
   email: "",
@@ -46,7 +46,7 @@ function reducer(state, action) {
       return { ...state, summary: action.payload };
     case "resetInfo":
       return { ...initialValue };
-    case "deleteInfo":
+    case "emptyInfo":
       return { ...emptyInfo };
     default:
       console.log("hehe");
@@ -109,8 +109,8 @@ function PersonalInfoProvider({ children }) {
     dispatcher({ type: "resetInfo" });
   }
 
-  function deletePersonalInfo() {
-    dispatcher({ type: "deleteInfo" });
+  function emptyPersonalInfo() {
+    dispatcher({ type: "emptyInfo" });
   }
 
   return (
@@ -135,7 +135,7 @@ function PersonalInfoProvider({ children }) {
         changeAddress,
         changeSummary,
         resetPersonalInfo,
-        deletePersonalInfo,
+        emptyPersonalInfo,
       }}
     >
       {children}

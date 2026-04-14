@@ -25,6 +25,17 @@ let initialValue = [
   },
 ];
 
+let emptyValue = [
+  {
+    id: crypto.randomUUID(),
+    school: "",
+    course: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+    selected: true,
+  },
+];
 function reducer(state, action) {
   switch (action.type) {
     case "AddEducation":
@@ -75,6 +86,10 @@ function reducer(state, action) {
           ? edu
           : { ...edu, description: action.description },
       );
+    case "EmptyEducation":
+      return [...emptyValue];
+    case "ResetEducation":
+      return [...initialValue];
     default:
       console.log("hehe");
   }
@@ -105,6 +120,12 @@ function EducationContextProvider({ children }) {
   function changeDescription(id, description) {
     dispatcher({ type: "ChangeDescription", id, description });
   }
+  function emptyEducation() {
+    dispatcher({ type: "EmptyEducation" });
+  }
+  function resetEducation() {
+    dispatcher({ type: "ResetEducation" });
+  }
   return (
     <EducationContext.Provider
       value={{
@@ -117,6 +138,8 @@ function EducationContextProvider({ children }) {
         changeStartDate,
         changeEndDate,
         changeDescription,
+        emptyEducation,
+        resetEducation,
       }}
     >
       {children}

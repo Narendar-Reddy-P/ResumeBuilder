@@ -3,15 +3,7 @@ import { useReactToPrint } from "react-to-print";
 import styles from "./App.module.css";
 import { A4Sheet } from "./Components/A4Sheet";
 import { PersonalInfoProvider } from "./contexts/personalContext";
-
-import {
-  DeleteIcon,
-  EditIcon,
-  EyeIcon,
-  PrintIcon,
-  ResetIcon,
-  DownloadIcon,
-} from "./Icon";
+import Footer from "./Components/Footer";
 
 import { PersonalInformation } from "./Components/PersonalInformation";
 import { ProfileSummary } from "./Components/ProfileSummary";
@@ -30,26 +22,6 @@ import { MoreContextProvider } from "./contexts/MoreContext";
 function App() {
   const [preview, setPreview] = useState(false);
   const contentRef = useRef(null);
-
-  function deleteResume() {
-    // deletePersonalInfo();
-    // setSummary(profileSummaryEmpty);
-    // setEdu(coursesEmpty);
-    // setXP(workXPsEmpty);
-    // setProjects(tempProjectsEmpty);
-    // setSkills(skillsListEmpty);
-    // setMore(tempMoreEmpty);
-  }
-
-  function resetResume() {
-    // resetPersonalInfo();
-    // setSummary(profileSummary);
-    // setEdu(courses);
-    // setXP(workXPs);
-    // setProjects(tempProjects);
-    // setSkills(skillsList);
-    // setMore(tempMore);
-  }
 
   const handlePrint = useReactToPrint({
     contentRef,
@@ -86,31 +58,17 @@ function App() {
                       </section>
                     </section>
                     <section className={styles.previewWrapper}>
-                      <div className={styles.a4preview} ref={contentRef}>
-                        <A4Sheet />
+                      <div className={styles.a4preview}>
+                        <A4Sheet ref={contentRef} />
                       </div>
                       {preview && <A4Sheet id={"smallScreen"} />}
                     </section>
 
-                    <div>
-                      <div onClick={() => setPreview(!preview)}>
-                        <div onClick={() => setPreview(!preview)}>
-                          {preview ? <EditIcon /> : <EyeIcon />}
-                        </div>
-                      </div>
-                      <div onClick={deleteResume}>
-                        <DeleteIcon />
-                      </div>
-                      <div onClick={resetResume}>
-                        <ResetIcon />
-                      </div>
-                      <div onClick={handlePrint}>
-                        <DownloadIcon />
-                      </div>
-                      <div>
-                        <PrintIcon />
-                      </div>
-                    </div>
+                    <Footer
+                      preview={preview}
+                      handlePrint={handlePrint}
+                      setPreview={setPreview}
+                    />
                   </main>
                 </MoreContextProvider>
               </SkillsContextProvider>
