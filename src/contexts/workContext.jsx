@@ -28,10 +28,13 @@ let initialValue = [
 function reducer(state, action) {
   switch (action.type) {
     case "AddWork":
+      /* eslint-disable */
+      let tempwork = state.map((work) => {
+        return { ...work, selected: false };
+      });
+      /*eslint-enable*/
       return [
-        ...state.map((work) => {
-          return { ...work, selected: false };
-        }),
+        ...tempwork,
         {
           id: crypto.randomUUID(),
           position: "",
@@ -43,49 +46,35 @@ function reducer(state, action) {
         },
       ];
     case "RemoveWork":
-      return [...state.filter((work) => work.id != action.id)];
+      return state.filter((work) => work.id != action.id);
     case "SelectWork":
-      return [
-        ...state.map((work) =>
-          work.id !== action.id
-            ? { ...work, selected: false }
-            : { ...work, selected: !work.selected },
-        ),
-      ];
+      return state.map((work) =>
+        work.id !== action.id
+          ? { ...work, selected: false }
+          : { ...work, selected: !work.selected },
+      );
     case "ChangePosition":
-      return [
-        ...state.map((work) =>
-          work.id !== action.id ? work : { ...work, position: action.position },
-        ),
-      ];
+      return state.map((work) =>
+        work.id !== action.id ? work : { ...work, position: action.position },
+      );
     case "ChangeCompany":
-      return [
-        ...state.map((work) =>
-          work.id !== action.id ? work : { ...work, company: action.company },
-        ),
-      ];
+      return state.map((work) =>
+        work.id !== action.id ? work : { ...work, company: action.company },
+      );
     case "ChangeStartDate":
-      return [
-        ...state.map((work) =>
-          work.id !== action.id
-            ? work
-            : { ...work, startDate: action.startDate },
-        ),
-      ];
+      return state.map((work) =>
+        work.id !== action.id ? work : { ...work, startDate: action.startDate },
+      );
     case "ChangeEndDate":
-      return [
-        ...state.map((work) =>
-          work.id !== action.id ? work : { ...work, endDate: action.endDate },
-        ),
-      ];
+      return state.map((work) =>
+        work.id !== action.id ? work : { ...work, endDate: action.endDate },
+      );
     case "ChangeDescription":
-      return [
-        ...state.map((work) =>
-          work.id !== action.id
-            ? work
-            : { ...work, description: action.description },
-        ),
-      ];
+      return state.map((work) =>
+        work.id !== action.id
+          ? work
+          : { ...work, description: action.description },
+      );
     default:
       console.log("hehe");
   }

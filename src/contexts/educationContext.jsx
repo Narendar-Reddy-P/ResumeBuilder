@@ -28,10 +28,13 @@ let initialValue = [
 function reducer(state, action) {
   switch (action.type) {
     case "AddEducation":
+      /* eslint-disable */
+      let tempState = state.map((edu) => {
+        return { ...edu, selected: false };
+      });
+      /* eslint-disable */
       return [
-        ...state.map((edu) => {
-          return { ...edu, selected: false };
-        }),
+        ...tempState,
         {
           id: crypto.randomUUID(),
           school: "",
@@ -43,47 +46,35 @@ function reducer(state, action) {
         },
       ];
     case "RemoveEducation":
-      return [...state.filter((edu) => edu.id != action.id)];
+      return state.filter((edu) => edu.id != action.id);
     case "SelectEducation":
-      return [
-        ...state.map((edu) =>
-          edu.id !== action.id
-            ? { ...edu, selected: false }
-            : { ...edu, selected: !edu.selected },
-        ),
-      ];
+      return state.map((edu) =>
+        edu.id !== action.id
+          ? { ...edu, selected: false }
+          : { ...edu, selected: !edu.selected },
+      );
     case "ChangeSchool":
-      return [
-        ...state.map((edu) =>
-          edu.id !== action.id ? edu : { ...edu, school: action.school },
-        ),
-      ];
+      return state.map((edu) =>
+        edu.id !== action.id ? edu : { ...edu, school: action.school },
+      );
     case "ChangeCourse":
-      return [
-        ...state.map((edu) =>
-          edu.id !== action.id ? edu : { ...edu, course: action.course },
-        ),
-      ];
+      return state.map((edu) =>
+        edu.id !== action.id ? edu : { ...edu, course: action.course },
+      );
     case "ChangeStartDate":
-      return [
-        ...state.map((edu) =>
-          edu.id !== action.id ? edu : { ...edu, startDate: action.startDate },
-        ),
-      ];
+      return state.map((edu) =>
+        edu.id !== action.id ? edu : { ...edu, startDate: action.startDate },
+      );
     case "ChangeEndDate":
-      return [
-        ...state.map((edu) =>
-          edu.id !== action.id ? edu : { ...edu, endDate: action.endDate },
-        ),
-      ];
+      return state.map((edu) =>
+        edu.id !== action.id ? edu : { ...edu, endDate: action.endDate },
+      );
     case "ChangeDescription":
-      return [
-        ...state.map((edu) =>
-          edu.id !== action.id
-            ? edu
-            : { ...edu, description: action.description },
-        ),
-      ];
+      return state.map((edu) =>
+        edu.id !== action.id
+          ? edu
+          : { ...edu, description: action.description },
+      );
     default:
       console.log("hehe");
   }
@@ -143,4 +134,4 @@ function useEducation() {
   return context;
 }
 
-export { EducationContextProvider, useEducation }; //eslint-disable-line
+export { EducationContextProvider, useEducation };

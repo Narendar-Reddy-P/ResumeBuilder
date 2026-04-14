@@ -39,10 +39,11 @@ let tempProjectsEmpty = [
 function reducer(state, action) {
   switch (action.type) {
     case "AddProject":
+      /*eslint-disable*/
+      let tempState = state.map((project) => ({ ...project, selected: false }));
+      /*eslint-enable*/
       return [
-        ...state.map((project) => {
-          return { ...project, selected: false };
-        }),
+        ...tempState,
         {
           id: crypto.randomUUID(),
           title: "",
@@ -54,56 +55,44 @@ function reducer(state, action) {
         },
       ];
     case "RemoveProject":
-      return [...state.filter((project) => project.id !== action.id)];
+      return state.filter((project) => project.id !== action.id);
     case "SelectProject":
-      return [
-        ...state.map((project) =>
-          project.id !== action.id
-            ? { ...project, selected: false }
-            : { ...project, selected: !project.selected },
-        ),
-      ];
+      return state.map((project) =>
+        project.id !== action.id
+          ? { ...project, selected: false }
+          : { ...project, selected: !project.selected },
+      );
     case "ChangeTitle":
-      return [
-        ...state.map((project) =>
-          project.id !== action.id
-            ? project
-            : { ...project, title: action.title },
-        ),
-      ];
+      return state.map((project) =>
+        project.id !== action.id
+          ? project
+          : { ...project, title: action.title },
+      );
     case "ChangeTechStack":
-      return [
-        ...state.map((project) =>
-          project.id !== action.id
-            ? project
-            : { ...project, techStack: action.techStack },
-        ),
-      ];
+      return state.map((project) =>
+        project.id !== action.id
+          ? project
+          : { ...project, techStack: action.techStack },
+      );
 
     case "ChangeStartDate":
-      return [
-        ...state.map((project) =>
-          project.id !== action.id
-            ? project
-            : { ...project, startDate: action.startDate },
-        ),
-      ];
+      return state.map((project) =>
+        project.id !== action.id
+          ? project
+          : { ...project, startDate: action.startDate },
+      );
     case "ChangeEndDate":
-      return [
-        ...state.map((project) =>
-          project.id !== action.id
-            ? project
-            : { ...project, endDate: action.endDate },
-        ),
-      ];
+      return state.map((project) =>
+        project.id !== action.id
+          ? project
+          : { ...project, endDate: action.endDate },
+      );
     case "ChangeDescription":
-      return [
-        ...state.map((project) =>
-          project.id !== action.id
-            ? project
-            : { ...project, description: action.description },
-        ),
-      ];
+      return state.map((project) =>
+        project.id !== action.id
+          ? project
+          : { ...project, description: action.description },
+      );
     case "EmptyProjects":
       return [...tempProjectsEmpty];
     default:

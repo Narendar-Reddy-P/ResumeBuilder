@@ -83,7 +83,7 @@ function SectionForm({ section }) {
               <CircularPlus />
               <span> Add Link</span>
             </div>
-            <div onClick={addSectionItem(section.id)}>
+            <div onClick={() => addSectionItem(section.id)}>
               <CircularPlus />
               <span> Add Section item</span>
             </div>
