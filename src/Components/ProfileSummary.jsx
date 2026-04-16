@@ -3,7 +3,7 @@ import { usePersonalInfo } from "../contexts/personalContext";
 import { TextArea } from "../MinorComponents/TextArea";
 import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import { useComponent } from "../contexts/TogglerContext";
-import styles from "./Profilesummary.module.css";
+import styles from "./ProfileSummary.module.css";
 
 export function ProfileSummary() {
   const { summary, changeSummary } = usePersonalInfo();
