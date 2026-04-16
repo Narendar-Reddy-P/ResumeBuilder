@@ -10,7 +10,7 @@ import { Input } from "../MinorComponents/Input";
 import { TextArea } from "../MinorComponents/TextArea";
 import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import { useComponent } from "../contexts/TogglerContext";
-import styles from "./Workexperience.module.css";
+import styles from "./WorkExperience.module.css";
 
 export function WorkExperience() {
   const { works, addWork } = useWork();
@@ -55,7 +55,10 @@ function WorkXPForm({ id }) {
 
   return (
     <div>
-      <header onClick={() => selectWork(id)} className={`${styles.itemHeader} ${workXP.selected ? styles.itemHeaderOpen : ''}`}>
+      <header
+        onClick={() => selectWork(id)}
+        className={`${styles.itemHeader} ${workXP.selected ? styles.itemHeaderOpen : ""}`}
+      >
         <span>{`${workXP.position || "Job position"}, ${workXP.company || "Company"}`}</span>
         <div className={styles.icons}>
           <Icon src={togglerDown} size={"smaller"} />
