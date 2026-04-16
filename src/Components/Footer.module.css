@@ -1,0 +1,35 @@
+.footer {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 100;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: white;
+  color: var(--color-1);
+  border-radius: 0.3rem;
+  box-shadow: 0 4px 12px rgba(39, 55, 77, 0.15);
+  border: 1px solid var(--color-3);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+  background-color: var(--color-4);
+}
+
+.button svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}

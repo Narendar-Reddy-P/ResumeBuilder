@@ -10,6 +10,7 @@ import { Input } from "../MinorComponents/Input";
 import { TextArea } from "../MinorComponents/TextArea";
 import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import { useComponent } from "../contexts/TogglerContext";
+import styles from "./Workexperience.module.css";
 
 export function WorkExperience() {
   const { works, addWork } = useWork();
@@ -19,13 +20,13 @@ export function WorkExperience() {
     <div>
       <ComponentHeader mainIcon={briefcase} text={text} />
       {component === text && (
-        <div>
+        <div className={styles.formWrapper}>
           <div>
             {works.map((workXP) => (
               <WorkXPForm key={workXP.id} id={workXP.id} />
             ))}
           </div>
-          <div onClick={addWork}>
+          <div onClick={addWork} className={styles.addButton}>
             <CircularPlus />
             <span>&nbsp; Add work experience</span>
           </div>
@@ -54,13 +55,16 @@ function WorkXPForm({ id }) {
 
   return (
     <div>
-      <header onClick={() => selectWork(id)}>
+      <header onClick={() => selectWork(id)} className={`${styles.itemHeader} ${workXP.selected ? styles.itemHeaderOpen : ''}`}>
         <span>{`${workXP.position || "Job position"}, ${workXP.company || "Company"}`}</span>
-        <div>
+        <div className={styles.icons}>
           <Icon src={togglerDown} size={"smaller"} />
           <Icon
             src={deleteIcon}
-            onClick={() => removeWork(id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              removeWork(id);
+            }}
             size={"small"}
           />
         </div>
@@ -85,7 +89,7 @@ function WorkXPForm({ id }) {
 
           <Input
             id={id}
-            type="date"
+            type="text"
             header="Start Date"
             value={workXP.startDate}
             onChange={(e) => changeStartDate(id, e.target.value)}
@@ -93,7 +97,7 @@ function WorkXPForm({ id }) {
 
           <Input
             id={id}
-            type="date"
+            type="text"
             header="End Date"
             value={workXP.endDate}
             onChange={(e) => changeEndDate(id, e.target.value)}

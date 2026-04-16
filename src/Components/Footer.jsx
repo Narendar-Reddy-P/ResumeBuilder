@@ -5,6 +5,7 @@ import { useProjects } from "../contexts/ProjectsContext";
 import { useSkills } from "../contexts/SkillsContext";
 import { useWork } from "../contexts/workContext";
 import { usePersonalInfo } from "../contexts/personalContext";
+import styles from "./Footer.module.css";
 
 export default function Footer({ preview, setPreview, handlePrint }) {
   const { emptyEducation, resetEducation } = useEducation();
@@ -32,19 +33,17 @@ export default function Footer({ preview, setPreview, handlePrint }) {
     resetPersonalInfo();
   }
   return (
-    <footer>
-      <div onClick={() => setPreview(!preview)}>
-        <div onClick={() => setPreview(!preview)}>
-          {preview ? <EditIcon /> : <EyeIcon />}
-        </div>
+    <footer className={styles.footer}>
+      <div className={styles.button} onClick={() => setPreview(!preview)}>
+        {preview ? <EditIcon /> : <EyeIcon />}
       </div>
-      <div onClick={emptyResume}>
+      <div className={styles.button} onClick={emptyResume}>
         <DeleteIcon />
       </div>
-      <div onClick={resetResume}>
+      <div className={styles.button} onClick={resetResume}>
         <ResetIcon />
       </div>
-      <div onClick={handlePrint}>
+      <div className={styles.button} onClick={handlePrint}>
         <PrintIcon />
       </div>
     </footer>

@@ -3,6 +3,7 @@ import userIcon from "../assets/images/icons/user-icon.svg";
 import { Input } from "../MinorComponents/Input";
 import { usePersonalInfo } from "../contexts/personalContext";
 import { useComponent } from "../contexts/TogglerContext";
+import styles from "./PersonalInformation.module.css";
 
 export function PersonalInformation() {
   const {
@@ -29,7 +30,7 @@ export function PersonalInformation() {
     <div>
       <ComponentHeader mainIcon={userIcon} text="Personal Information" />
       {component === text && (
-        <div>
+        <div className={styles.formWrapper}>
           <Input
             id="firstName"
             type="text"

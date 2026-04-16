@@ -7,6 +7,7 @@ import { useComponent } from "../contexts/TogglerContext";
 import { Icon } from "../MinorComponents/Icon";
 import { Input } from "../MinorComponents/Input";
 import { useMore } from "../contexts/MoreContext";
+import styles from "./More.module.css";
 
 export function More() {
   const { component } = useComponent();
@@ -16,13 +17,13 @@ export function More() {
     <div>
       <ComponentHeader mainIcon={ellipsis} text={"More"} />
       {component === "More" && (
-        <div>
+        <div className={styles.formWrapper}>
           <div>
             {data.map((section) => (
               <SectionForm key={section.id} id={section.id} section={section} />
             ))}
           </div>
-          <div onClick={addSection}>
+          <div onClick={addSection} className={styles.addButton}>
             <CircularPlus />
             <span>&nbsp; Add Section</span>
           </div>
@@ -42,14 +43,17 @@ function SectionForm({ section }) {
   } = useMore();
 
   return (
-    <div>
-      <header onClick={() => handleSelected(section.id)}>
+    <div className={section.selected ? styles.openedSection : undefined}>
+      <header onClick={() => handleSelected(section.id)} className={`${styles.itemHeader} ${section.selected ? styles.itemHeaderOpen : ''}`}>
         <span>{section.name || "Section"}</span>
-        <div>
+        <div className={styles.icons}>
           <Icon src={togglerDown} size={"small"} />
           <Icon
             src={deleteIcon}
-            onClick={(e) => deleteSection(section.id, e.target.value)}
+            onClick={(e) => {
+              e.stopPropagation();
+              deleteSection(section.id, e.target.value);
+            }}
             size={"small"}
           />
         </div>
@@ -78,12 +82,12 @@ function SectionForm({ section }) {
               )}
           </div>
 
-          <div>
-            <div onClick={() => addLink(section.id)}>
+          <div className={styles.buttonContainer}>
+            <div onClick={() => addLink(section.id)} className={styles.addButton}>
               <CircularPlus />
               <span> Add Link</span>
             </div>
-            <div onClick={() => addSectionItem(section.id)}>
+            <div onClick={() => addSectionItem(section.id)} className={styles.addButton}>
               <CircularPlus />
               <span> Add Section item</span>
             </div>
@@ -97,9 +101,9 @@ function SectionForm({ section }) {
 function SectionItem({ item, sectionId }) {
   const { changeSectionItem, deleteSectionItem } = useMore();
   return (
-    <div>
+    <div className={styles.sectionItemRow}>
       <input
-        className="bg-indigo-100 border-1.5 border-indigo-500 focus:border-indigo-500 text-indigo-900 focus:outline-none focus:ring focus:ring-indigo-900 focus:ring-offset-1 transition-all duration-300 rounded-sm w-full p-1"
+        className={styles.input}
         value={item.value}
         onChange={(e) =>
           changeSectionItem(item.id, sectionId, "value", e.target.value)
@@ -117,33 +121,31 @@ function SectionItem({ item, sectionId }) {
 function Link({ item, sectionId }) {
   const { changeSectionItem, deleteSectionItem } = useMore();
   return (
-    <div>
-      <div>
-        <div>
-          <input
-            placeholder="Link Text"
-            value={item.linkText}
-            onChange={(e) =>
-              changeSectionItem(item.id, sectionId, "linkText", e.target.value)
-            }
-          ></input>
-          <Icon
-            src={deleteIcon}
-            onClick={() => {
-              deleteSectionItem(sectionId, item.id);
-            }}
-            size={"small"}
-          />
-        </div>
-        <div>
-          <input
-            placeholder="URL"
-            value={item.url}
-            onChange={(e) =>
-              changeSectionItem(item.id, sectionId, "url", e.target.value)
-            }
-          ></input>
-        </div>
+    <div className={styles.linkBox}>
+      <input
+        className={styles.input}
+        placeholder="Link Text"
+        value={item.linkText}
+        onChange={(e) =>
+          changeSectionItem(item.id, sectionId, "linkText", e.target.value)
+        }
+      />
+      <input
+        className={styles.input}
+        placeholder="URL"
+        value={item.url}
+        onChange={(e) =>
+          changeSectionItem(item.id, sectionId, "url", e.target.value)
+        }
+      />
+      <div style={{ position: "absolute", top: "0.8rem", right: "0.5rem" }}>
+        <Icon
+          src={deleteIcon}
+          onClick={() => {
+            deleteSectionItem(sectionId, item.id);
+          }}
+          size={"small"}
+        />
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import { CircularPlus } from "../Icon";
 import { useEducation } from "../contexts/educationContext";
 import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import { useComponent } from "../contexts/TogglerContext";
+import styles from "./Education.module.css";
 
 export function Education() {
   const { education, addEducation } = useEducation();
@@ -20,13 +21,13 @@ export function Education() {
     <div>
       <ComponentHeader mainIcon={academicCap} text={text} />
       {component === text && (
-        <div>
+        <div className={styles.formWrapper}>
           <div>
             {education.map((tut) => (
               <EducationForm key={tut.id} id={tut.id} />
             ))}
           </div>
-          <div onClick={addEducation}>
+          <div onClick={addEducation} className={styles.addButton}>
             <CircularPlus />
             <span>&nbsp; Add education</span>
           </div>
@@ -55,13 +56,16 @@ function EducationForm({ id }) {
 
   return (
     <div>
-      <header onClick={() => selectEducation(id)}>
+      <header onClick={() => selectEducation(id)} className={`${styles.itemHeader} ${tempEdu.selected ? styles.itemHeaderOpen : ''}`}>
         <span>{`${tempEdu.school || "School"}, ${tempEdu.course || "Course"}`}</span>
-        <div>
+        <div className={styles.icons}>
           <Icon src={togglerDown} size={"smaller"} />
           <Icon
             src={deleteIcon}
-            onClick={() => removeEducation(id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              removeEducation(id);
+            }}
             size={"small"}
           />
         </div>
@@ -86,7 +90,7 @@ function EducationForm({ id }) {
 
           <Input
             id={id}
-            type="date"
+            type="text"
             header="Start Date"
             value={tempEdu.startDate}
             onChange={(e) => changeStartDate(id, e.target.value)}
@@ -94,7 +98,7 @@ function EducationForm({ id }) {
 
           <Input
             id={id}
-            type="date"
+            type="text"
             header="End Date"
             value={tempEdu.endDate}
             onChange={(e) => changeEndDate(id, e.target.value)}

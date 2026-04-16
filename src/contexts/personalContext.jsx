@@ -49,7 +49,7 @@ function reducer(state, action) {
     case "emptyInfo":
       return { ...emptyInfo };
     default:
-      console.log("hehe");
+      throw new Error("Unknown action type");
   }
 }
 

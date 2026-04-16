@@ -10,6 +10,7 @@ import { Input } from "../MinorComponents/Input";
 import { TextArea } from "../MinorComponents/TextArea";
 import { Icon } from "../MinorComponents/Icon";
 import { useProjects } from "../contexts/ProjectsContext";
+import styles from "./Projects.module.css";
 
 export function Projects() {
   const { component } = useComponent();
@@ -19,13 +20,13 @@ export function Projects() {
     <div>
       <ComponentHeader mainIcon={projectIcon} text={"Projects"} />
       {component === "Projects" && (
-        <div>
+        <div className={styles.formWrapper}>
           <div>
             {projects.map((project) => (
               <ProjectForm id={project.id} key={project.id} />
             ))}
           </div>
-          <div onClick={addProject}>
+          <div onClick={addProject} className={styles.addButton}>
             <CircularPlus />
             <span>&nbsp; Add Project</span>
           </div>
@@ -52,13 +53,16 @@ function ProjectForm({ id }) {
 
   return (
     <div>
-      <header onClick={() => selectProject(id)}>
+      <header onClick={() => selectProject(id)} className={`${styles.itemHeader} ${selected ? styles.itemHeaderOpen : ''}`}>
         <span>{`${title || "Project Title"}, ${techStack || "Tech Stack"}`}</span>
-        <div>
+        <div className={styles.icons}>
           <Icon src={togglerDown} size={"smaller"} />
           <Icon
             src={deleteIcon}
-            onClick={() => removeProject(id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              removeProject(id);
+            }}
             size={"small"}
           />
         </div>

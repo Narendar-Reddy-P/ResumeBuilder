@@ -1,11 +1,23 @@
 :root {
+  --color-1: #27374D;
+  --color-2: #526D82;
+  --color-3: #9DB2BF;
+  --color-4: #DDE6ED;
+  
   min-height: 100vh;
   min-width: 100vw;
-  background-color: #dde6ed;
+  background-color: var(--color-4);
+  color: var(--color-1);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   font-family: Arial, Calibri, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .icon {

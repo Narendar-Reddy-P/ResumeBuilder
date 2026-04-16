@@ -92,7 +92,7 @@ function reducer(state, action) {
     case "ResetWork":
       return [...initialValue];
     default:
-      console.log("hehe");
+      throw new Error("Unknown action type");
   }
 }
 function WorkContextProvider({ children }) {

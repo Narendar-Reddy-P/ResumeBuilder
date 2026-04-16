@@ -98,6 +98,7 @@ function reducer(state, action) {
     case "ResetProjects":
       return [...initialValue];
     default:
+      throw new Error("Unknown action type");
   }
 }
 
@@ -113,19 +114,19 @@ function ProjectsContextProvider({ children }) {
     dispatcher({ type: "SelectProject", id });
   }
   function changeTitle(id, title) {
-    dispatcher({ type: "ChangeTitle", title });
+    dispatcher({ type: "ChangeTitle", id, title });
   }
   function changeTechStack(id, techStack) {
-    dispatcher({ type: "ChangeTechStack", techStack });
+    dispatcher({ type: "ChangeTechStack", id, techStack });
   }
   function changeStartDate(id, startDate) {
-    dispatcher({ type: "ChangeStartDate", startDate });
+    dispatcher({ type: "ChangeStartDate", id, startDate });
   }
   function changeEndDate(id, endDate) {
-    dispatcher({ type: "ChangeEndDate", endDate });
+    dispatcher({ type: "ChangeEndDate", id, endDate });
   }
   function changeDescription(id, description) {
-    dispatcher({ type: "ChangeDescription", description });
+    dispatcher({ type: "ChangeDescription", id, description });
   }
   function emptyProjects() {
     dispatcher({ type: "EmptyProjects" });

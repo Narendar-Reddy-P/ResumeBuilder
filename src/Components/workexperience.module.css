@@ -1,0 +1,48 @@
+.formWrapper {
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid var(--color-3);
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(39, 55, 77, 0.05);
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: var(--color-4);
+  border-radius: 0.3rem;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  color: var(--color-1);
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.itemHeader:hover, .itemHeaderOpen {
+  background-color: var(--color-3);
+}
+
+.icons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  background-color: transparent;
+  color: var(--color-2);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.addButton:hover {
+  color: var(--color-1);
+}

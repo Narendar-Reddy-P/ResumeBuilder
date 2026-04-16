@@ -91,7 +91,7 @@ function reducer(state, action) {
     case "ResetEducation":
       return [...initialValue];
     default:
-      console.log("hehe");
+      throw new Error("Unknown action type");
   }
 }
 function EducationContextProvider({ children }) {

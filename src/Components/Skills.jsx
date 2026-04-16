@@ -5,6 +5,7 @@ import { ComponentHeader } from "../MinorComponents/ComponentHeader";
 import { useComponent } from "../contexts/TogglerContext";
 import { Icon } from "../MinorComponents/Icon";
 import { useSkills } from "../contexts/SkillsContext";
+import styles from "./Skills.module.css";
 
 export function Skills() {
   const { component } = useComponent();
@@ -14,13 +15,13 @@ export function Skills() {
     <div>
       <ComponentHeader mainIcon={sparkles} text={"Skills"} />
       {component === "Skills" && (
-        <div>
+        <div className={styles.formWrapper}>
           <div>
             {skills.map((skill) => (
               <Skill key={skill.id} skill={skill} />
             ))}
           </div>
-          <div onClick={addSkill}>
+          <div onClick={addSkill} className={styles.addButton}>
             <CircularPlus />
             <span>&nbsp; Add Skill</span>
           </div>
@@ -33,13 +34,19 @@ export function Skills() {
 function Skill({ skill }) {
   const { removeSkill, changeSkill } = useSkills();
   return (
-    <div>
-      <input value={skill.name} onChange={changeSkill}></input>
-      <Icon
-        src={deleteIcon}
-        onClick={() => removeSkill(skill.id)}
-        size={"small"}
+    <div className={styles.itemHeader}>
+      <input 
+        value={skill.name} 
+        onChange={(e) => changeSkill(skill.id, e.target.value)} 
+        className={styles.skillInput}
       />
+      <div className={styles.icons}>
+        <Icon
+          src={deleteIcon}
+          onClick={() => removeSkill(skill.id)}
+          size={"small"}
+        />
+      </div>
     </div>
   );
 }
