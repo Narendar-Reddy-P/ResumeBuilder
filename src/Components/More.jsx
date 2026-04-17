@@ -44,7 +44,10 @@ function SectionForm({ section }) {
 
   return (
     <div className={section.selected ? styles.openedSection : undefined}>
-      <header onClick={() => handleSelected(section.id)} className={`${styles.itemHeader} ${section.selected ? styles.itemHeaderOpen : ''}`}>
+      <header
+        onClick={() => handleSelected(section.id)}
+        className={`${styles.itemHeader} ${section.selected ? styles.itemHeaderOpen : ""}`}
+      >
         <span>{section.name || "Section"}</span>
         <div className={styles.icons}>
           <Icon src={togglerDown} size={"small"} />
@@ -83,11 +86,17 @@ function SectionForm({ section }) {
           </div>
 
           <div className={styles.buttonContainer}>
-            <div onClick={() => addLink(section.id)} className={styles.addButton}>
+            <div
+              onClick={() => addLink(section.id)}
+              className={styles.addButton}
+            >
               <CircularPlus />
               <span> Add Link</span>
             </div>
-            <div onClick={() => addSectionItem(section.id)} className={styles.addButton}>
+            <div
+              onClick={() => addSectionItem(section.id)}
+              className={styles.addButton}
+            >
               <CircularPlus />
               <span> Add Section item</span>
             </div>
@@ -111,7 +120,7 @@ function SectionItem({ item, sectionId }) {
       ></input>
       <Icon
         src={deleteIcon}
-        onClick={() => deleteSectionItem(item.id)}
+        onClick={() => deleteSectionItem(sectionId, item.id)}
         size={"small"}
       />
     </div>

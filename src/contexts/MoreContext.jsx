@@ -67,26 +67,21 @@ function reducer(state, action) {
       return state.filter((section) => section.id !== action.id);
 
     case "AddSection":
-      return [
-        ...state,
-        {
-          id: crypto.randomUUID(),
-          name: "",
-          details: [
-            {
-              id: crypto.randomUUID(),
-              type: "",
-              value: "",
-            },
-            {
-              id: crypto.randomUUID(),
-              type: "",
-              linkText: "",
-              url: "",
-            },
-          ],
-        },
-      ];
+      /*eslint-disable*/
+      let newSection = {
+        id: crypto.randomUUID(),
+        name: "",
+        selected: true,
+        details: [
+          {
+            id: crypto.randomUUID(),
+            type: "",
+            value: "",
+          },
+        ],
+      };
+      /*eslint-enable*/
+      return [...state, newSection];
     case "ChangeSectionName":
       return state.map((section) =>
         section.id !== action.id ? section : { ...section, name: action.name },

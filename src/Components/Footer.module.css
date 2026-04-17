@@ -33,3 +33,24 @@
   width: 1.5rem;
   height: 1.5rem;
 }
+
+@media (max-width: 1024px) {
+  .footer {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    flex-direction: row;
+    justify-content: center;
+    background-color: var(--color-4);
+    padding: 1rem;
+    gap: 2rem;
+    border-top: 1px solid var(--color-3);
+    box-shadow: 0 -4px 12px rgba(39, 55, 77, 0.05);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    gap: 1.5rem;
+  }
+}

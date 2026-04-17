@@ -2,14 +2,14 @@ import { createContext, useContext, useReducer } from "react";
 
 const PersonalInfoContext = createContext();
 const initialValue = {
-  firstName: "Arjun",
-  lastName: "Mehta",
+  firstName: "Narendar",
+  lastName: "Reddy",
   jobTitle: "Frontend Developer",
-  phone: "9876543210",
-  email: "arjun.mehta.dev@gmail.com",
-  github: "arjunmehta-dev",
-  portfolio: "https://arjunmehta.dev",
-  address: "Bangalore, India",
+  phone: "9392715897",
+  email: "narendar.reddy.pucchakayala@gmail.com",
+  github: "narendar-reddy-p",
+  portfolio: "",
+  address: "Hyderabad, India",
   summary:
     "Detail-oriented Frontend Developer with 3+ years of experience building scalable web applications using React and modern JavaScript. Strong understanding of component-driven architecture, performance optimization, and responsive design principles.",
 };

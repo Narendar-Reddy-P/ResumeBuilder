@@ -39,12 +39,14 @@ function App() {
             <ProjectsContextProvider>
               <SkillsContextProvider>
                 <MoreContextProvider>
-                  <main className={styles.main}>
+                  <main
+                    className={`${styles.main} ${preview ? styles.previewMode : ""}`}
+                  >
                     <section className={styles.leftSection}>
                       <header className={styles.header}>
-                        <h2>Curriculum Vitae</h2>
+                        <h2>Resume Builder</h2>
                         <p className={styles.p}>
-                          Your perfect CV made fast and effortless.
+                          Make instant resumes with minimal effort
                         </p>
                       </header>
                       <section className={styles.componentSection}>
@@ -61,7 +63,6 @@ function App() {
                       <div className={styles.a4preview}>
                         <A4Sheet ref={contentRef} />
                       </div>
-                      {preview && <A4Sheet id={"smallScreen"} />}
                     </section>
 
                     <Footer

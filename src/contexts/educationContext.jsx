@@ -5,22 +5,20 @@ const EducationContext = createContext();
 let initialValue = [
   {
     id: crypto.randomUUID(),
-    school: "Indian Institute of Technology Madras",
-    course: "Full Stack Web Development",
-    startDate: "Jan 2022",
-    endDate: "Jun 2022",
-    description:
-      "Completed intensive training in MERN stack. Built REST APIs, implemented authentication using JWT, and deployed applications using Docker and Nginx.",
+    school: "Sri Indu College of Engineering and Technology",
+    course: "B-Tech CSE",
+    startDate: "Sep 2023",
+    endDate: "2027",
+    description: "",
     selected: true,
   },
   {
     id: crypto.randomUUID(),
-    school: "Udemy",
-    course: "Advanced React & Redux",
-    startDate: "Aug 2021",
-    endDate: "Oct 2021",
-    description:
-      "Learned advanced React patterns, custom hooks, state management with Redux Toolkit, and performance optimization techniques.",
+    school: "The Odin Project",
+    course: "Full Stack JavaScript",
+    startDate: "Aug 2025",
+    endDate: "present",
+    description: "",
     selected: false,
   },
 ];
