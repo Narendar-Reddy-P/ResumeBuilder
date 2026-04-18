@@ -87,6 +87,11 @@ This will generate a `dist` folder containing the optimized production files.
 - UI and design inspired by [Lightning CV](https://lightningcv.vercel.app/).
 - Color palettes picked using [Color Hunt](https://colorhunt.co/).
 
+## Further Improvements
+
+- **More Layouts & Palettes:** Introduce multiple distinct resume templates and customizable color palettes to give users more design flexibility.
+- **Clickable PDF Links:** Enhance the document generation process to preserve active hyperlinks in the downloaded PDF, ensuring that portfolio and social links can be clicked directly from the resume file.
+
 ## License
 
 This project is licensed under the MIT License.
